@@ -14,4 +14,6 @@ public interface GeneralDObject extends Serializable{
     GeneralDObject getNewRecord(ResultSet rs) throws SQLException;
 
     public default String getFields() { return "*"; }
+
+    public default String getOrderBy() { return ""; }
 }

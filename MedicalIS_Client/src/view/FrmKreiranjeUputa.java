@@ -4,18 +4,38 @@
  */
 package view;
 
+import controller.ClientController;
+import domain.Analiza;
+import domain.KartonPacijenta;
+import domain.Lekar;
+import domain.Uput;
+import domain.VrstaUzorka;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Maja
  */
 public class FrmKreiranjeUputa extends javax.swing.JDialog {
 
+    Lekar lekar;
+    KartonPacijenta pacijent;
     /**
      * Creates new form FrmKreiranjeUputa
      */
-    public FrmKreiranjeUputa(java.awt.Frame parent, boolean modal) {
+    public FrmKreiranjeUputa(java.awt.Frame parent, boolean modal, KartonPacijenta pacijent, Lekar l) {
         super(parent, modal);
         initComponents();
+        this.pacijent=pacijent;
+        prepareForm(pacijent.getJmbg());
+        lekar = l;
+        ClientController.getInstance().setFrmUput(this);
     }
 
     /**
@@ -36,9 +56,11 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
         txtDijagnoza = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtSifraUputa = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnKreirajUput = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbVrstaUzorka = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        cbAnaliza = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -58,11 +80,20 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
 
         txtSifraUputa.setEnabled(false);
 
-        jButton1.setText("Kreiraj uput");
+        btnKreirajUput.setText("Kreiraj uput");
+        btnKreirajUput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKreirajUputActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Vrsta uzorka:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbVrstaUzorka.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel4.setText("Analiza:");
+
+        cbAnaliza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,29 +111,31 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtDatum))
+                                .addComponent(txtDatum, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(50, 50, 50)
-                                .addComponent(txtSifraUputa, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(txtSifraUputa)
                                 .addGap(170, 170, 170))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtDijagnoza)
-                                    .addComponent(jComboBox1, 0, 323, Short.MAX_VALUE)))))
+                                    .addComponent(cbVrstaUzorka, 0, 323, Short.MAX_VALUE)
+                                    .addComponent(cbAnaliza, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addGap(169, 169, 169)
+                        .addComponent(btnKreirajUput, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtJMBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,82 +149,64 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtDijagnoza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(cbVrstaUzorka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbAnaliza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(btnKreirajUput, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnKreirajUputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajUputActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmKreiranjeUputa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmKreiranjeUputa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmKreiranjeUputa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmKreiranjeUputa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Uput u = new Uput();
+            u.setPacijent(pacijent);
+            u.setAnaliza(cbAnaliza.getSelectedItem().toString());
+            u.setVrstaUzorka(cbVrstaUzorka.getSelectedItem().toString());
+            u.setLekar(lekar);
+            u.setDatumUputa(new Date());
+            u.setUputnaDijagnoza(txtDijagnoza.getText());
+            ClientController.getInstance().insertUput(u);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greska: " + ex.getMessage());
         }
-        //</editor-fold>
+    }//GEN-LAST:event_btnKreirajUputActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrmKreiranjeUputa dialog = new FrmKreiranjeUputa(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnKreirajUput;
+    private javax.swing.JComboBox<String> cbAnaliza;
+    private javax.swing.JComboBox<String> cbVrstaUzorka;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -200,4 +215,24 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
     private javax.swing.JTextField txtJMBG;
     private javax.swing.JTextField txtSifraUputa;
     // End of variables declaration//GEN-END:variables
+
+    private void prepareForm(Long jmbg) {
+        txtJMBG.setText(jmbg.toString());
+        Date date = new Date();
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        txtDatum.setText(formatter.format(date));
+        
+        Analiza analize = new Analiza();
+        cbAnaliza.setModel(new DefaultComboBoxModel(analize.getAnalize().toArray()));
+        
+        VrstaUzorka uzorci = new VrstaUzorka();
+        cbVrstaUzorka.setModel(new DefaultComboBoxModel(uzorci.getUzorci().toArray()));
+    }
+    
+    public void notifyInsert(String message, Uput u) {
+        JOptionPane.showMessageDialog(this, message);
+        if(u!=null) 
+           txtSifraUputa.setText(u.getSifraUputa().toString());
+    }
 }

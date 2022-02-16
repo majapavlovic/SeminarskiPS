@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import main.Client;
 
 /**
  *
@@ -63,6 +64,24 @@ public class ClientThread extends Thread {
                 break;
             case Operations.GET_REZULTAT:
                 ClientController.getInstance().showRezultat(response);
+                break;
+            case Operations.INSERT_PACIJENT:
+                ClientController.getInstance().notifyInsertPacijent(response);
+                break;
+            case Operations.SHUTDOWN:
+                ClientController.getInstance().shutdown();
+                break;
+            case Operations.INSERT_UPUT:
+                ClientController.getInstance().notifyInsertUput(response);
+                break;
+            case Operations.LOGIN_LAB:
+                ClientController.getInstance().loginLaborantResponse(response);
+                break;
+            case Operations.GET_ALL_UPUT:
+                ClientController.getInstance().setUputi(response);
+                break;
+            case Operations.GET_ALL_REZULTAT:
+                ClientController.getInstance().setRezultati(response);
                 break;
             
         }

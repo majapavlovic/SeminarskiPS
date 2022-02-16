@@ -5,80 +5,27 @@
 package domain;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Maja
  */
-public class Analiza implements Serializable, GeneralDObject {
-    
-    Long sifraAnalize;
-    String naziv;
-    Uput uput;
+public class Analiza implements Serializable {
+
+    public List<String> analize = new ArrayList();
 
     public Analiza() {
+        analize.add("Bakterioloska");
+        analize.add("Mikoloska");
+        analize.add("Paraziti");
+        analize.add("Virusoloska");
+        //analize.add("Bakterioloska");
     }
 
-    public Analiza(Long sifraAnalize, String naziv, Uput uput) {
-        this.sifraAnalize = sifraAnalize;
-        this.naziv = naziv;
-        this.uput = uput;
+    public List<String> getAnalize() {
+        return analize;
     }
 
-    public Long getSifraAnalize() {
-        return sifraAnalize;
-    }
-
-    public void setSifraAnalize(Long sifraAnalize) {
-        this.sifraAnalize = sifraAnalize;
-    }
-
-    public String getNaziv() {
-        return naziv;
-    }
-
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
-    }
-
-    public Uput getUput() {
-        return uput;
-    }
-
-    public void setUput(Uput uput) {
-        this.uput = uput;
-    }
-    
-    @Override
-    public String getAtrValue() {
-        return sifraAnalize + ", " + naziv + ", " + uput.getSifraUputa();
-    }
-
-    @Override
-    public String setAtrValue() {
-        return "sifra_analize= " + sifraAnalize + ", naziv_analize=" + naziv + "sifra_uputa=" + uput.getSifraUputa();
-    }
-
-    @Override
-    public String getClassName() {
-        return "Analiza";
-    }
-
-    @Override
-    public String getWhereCondition() {
-        return "sifra_analize=" + sifraAnalize;
-    }
-
-    @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Analiza();
-    }
-    
 }

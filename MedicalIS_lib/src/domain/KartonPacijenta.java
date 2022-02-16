@@ -7,6 +7,7 @@ package domain;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -148,8 +149,9 @@ public class KartonPacijenta implements Serializable, GeneralDObject{
         
     @Override
     public String getAtrValue() {
-        return jmbg.toString() + ", " + lbo.toString() + ", '" + ime + "', '" +  prezime + "', '" + pol.toString() + "', '" + datumRodjenja.toString() 
-                + "', '" + adresa + "', '" + kontaktTelefon + "', '" + krvnaGrupa.toString() + "', '" + hronicneDijagnoze + "', " + lekar.getSifraLekara();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return jmbg.toString() + ", " + lbo.toString() + ", '" + ime + "', '" +  prezime + "', '" + formatter.format(datumRodjenja) +"', '" + pol.toString()
+                + "', '" + adresa + "', '" + kontaktTelefon + "', '" + krvnaGrupa.toString() + "', '" + hronicneDijagnoze + "', '" + lekar.getUsername() + "'";
     }
 
     @Override
@@ -160,7 +162,7 @@ public class KartonPacijenta implements Serializable, GeneralDObject{
                 + "', adresa='" + adresa + "', kontakt_telefon='" 
                 + kontaktTelefon + "', krvna_grupa='" + krvnaGrupa.toString() 
                 + "', hronicne_dijagnoze'" + hronicneDijagnoze + 
-                "', lekar=" + lekar.getSifraLekara();
+                "', lekar='" + lekar.getUsername() + "'";
     }
 
     @Override
@@ -185,7 +187,7 @@ public class KartonPacijenta implements Serializable, GeneralDObject{
                 rs.getString("prezime"), Pol.valueOf(rs.getString("pol")),
                 rs.getDate("datumrodjenja"), rs.getString("adresa"), 
                 rs.getString("kontakt_telefon"), rs.getString("krvna_grupa"), 
-                rs.getString("hronicne_dijagnoze"), new Lekar(rs.getLong("lekar"))
+                rs.getString("hronicne_dijagnoze"), new Lekar(rs.getString("lekar"))
         );
     }
 

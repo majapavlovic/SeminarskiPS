@@ -17,4 +17,7 @@ public class Operations implements Serializable{
     public static final int GET_PACIJENT = 4;
     public static final int GET_REZULTAT = 5;
     public static final int INSERT_PACIJENT = 6;
+    public static final int INSERT_UPUT = 7;
+    public static final int GET_ALL_UPUT = 8;
+    public static final int GET_ALL_REZULTAT = 9;
 }

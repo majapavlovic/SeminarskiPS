@@ -12,35 +12,32 @@ import java.sql.SQLException;
  *
  * @author Maja
  */
-public class Lekar implements Serializable, GeneralDObject{
-    Long SifraLekara;
-    String ime;
-    String prezime;
+public class Lekar implements Serializable, GeneralDObject {
     String username;
     String password;
+    String ime;
+    String prezime;
 
     public Lekar() {
     }
 
-    public Lekar(Long SifraLekara, String ime, String prezime, String username, String password) {
-        this.SifraLekara = SifraLekara;
+    public Lekar(String username, String password, String ime, String prezime) {
+        this.username = username;
+        this.password = password;
         this.ime = ime;
         this.prezime = prezime;
+    }
+
+    public Lekar(String username) {
+        this.username = username;
+    }
+
+    public Lekar(String username, String password) {
         this.username = username;
         this.password = password;
     }
-
-    public Lekar(Long SifraLekara) {
-        this.SifraLekara = SifraLekara;
-    }
-        
-    public Long getSifraLekara() {
-        return SifraLekara;
-    }
-
-    public void setSifraLekara(Long SifraLekara) {
-        this.SifraLekara = SifraLekara;
-    }
+    
+    
 
     public String getIme() {
         return ime;
@@ -73,16 +70,15 @@ public class Lekar implements Serializable, GeneralDObject{
     public void setPassword(String password) {
         this.password = password;
     }
-    
 
     @Override
     public String getAtrValue() {
-        return SifraLekara + ", '" + ime + "', '" + prezime + "', '" + username + "', '" + password + "'";
+        return "'" + username + "', '" + password + "', '" + ime + "', '" + prezime + "'";
     }
 
     @Override
     public String setAtrValue() {
-        return "sifra_lekara = " + SifraLekara + ", ime='" + ime + "', prezime='" + prezime + "', korisnicko_ime'" + username + "', korisnicka_sifra='" + password + "'";
+        return "korisnicko_ime='" + username + "', korisnicka_sifra='" + password + ", ime='" + ime + "', prezime='" + prezime  + "'";
     }
 
     @Override
@@ -102,9 +98,7 @@ public class Lekar implements Serializable, GeneralDObject{
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Lekar(rs.getLong("sifra_lekara"), rs.getString("ime"), rs.getString("prezime"), 
-                rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"));
+        return new Lekar(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"),rs.getString("ime"), rs.getString("prezime"));
     }
-    
-    
+
 }

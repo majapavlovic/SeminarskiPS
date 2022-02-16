@@ -115,7 +115,17 @@ public class FrmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLaborantLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaborantLoginActionPerformed
-        // TODO add your handling code here:
+         try {
+            validateForm();
+            Laborant l = new Laborant();
+            l.setUsername(txtUsername.getText());
+            l.setPassword(String.valueOf(txtPassword.getPassword()));
+            ClientController.getInstance().loginLaborant(l);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnLaborantLoginActionPerformed
 
     private void btnLekarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLekarLoginActionPerformed
@@ -194,6 +204,19 @@ public class FrmLogin extends javax.swing.JFrame {
             lekar = (Lekar) response.getResponse();
             JOptionPane.showMessageDialog(this, "Uspesno logovanje", "Zdravo, " + lekar.getIme(), JOptionPane.INFORMATION_MESSAGE);
             new FrmMain_Lekar(lekar).setVisible(true);
+            this.dispose();
+        } else
+        {
+            JOptionPane.showMessageDialog(this, response.getException(), "Greska u logovanju", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+    }
+     public void loginLab(Response response) {
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            laborant =  (Laborant) response.getResponse();
+            JOptionPane.showMessageDialog(this, "Uspesno logovanje", "Zdravo, " + laborant.getIme(), JOptionPane.INFORMATION_MESSAGE);
+            new FrmMain_Laborant(laborant).setVisible(true);
             this.dispose();
         } else
         {

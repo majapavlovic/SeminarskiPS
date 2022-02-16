@@ -7,35 +7,31 @@ package domain;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 /**
  *
  * @author Maja
  */
 public class Laborant implements Serializable, GeneralDObject {
-    Long sifraLaboranta;
+
+    String username;
+    String password;
     String ime;
     String prezime;
 
     public Laborant() {
     }
 
-    public Laborant(Long sifraLaboranta, String ime, String prezime) {
-        this.sifraLaboranta = sifraLaboranta;
+    public Laborant(String username, String password, String ime, String prezime) {
+        this.username = username;
+        this.password = password;
         this.ime = ime;
         this.prezime = prezime;
     }
-
-    public Laborant(Long sifraLaboranta) {
-        this.sifraLaboranta = sifraLaboranta;
-    }
     
-    public Long getSifraLaboranta() {
-        return sifraLaboranta;
-    }
-
-    public void setSifraLaboranta(Long sifraLaboranta) {
-        this.sifraLaboranta = sifraLaboranta;
+    public Laborant(String username) {
+        this.username = username;
     }
 
     public String getIme() {
@@ -54,24 +50,41 @@ public class Laborant implements Serializable, GeneralDObject {
         this.prezime = prezime;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getAtrValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "'" + username + "', '" + password + "', '" + ime + "', '" + prezime + "'";
+
     }
 
     @Override
     public String setAtrValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "korisnicko_ime='" + username + "', korisnicka_sifra='" + password + "', ime='" + ime + "', prezime='" + prezime + "'";
     }
 
     @Override
     public String getClassName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Laborant";
     }
 
     @Override
     public String getWhereCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "korisnicko_ime='" + username + "' AND korisnicka_sifra='" + password + "'";
     }
 
     @Override
@@ -81,8 +94,7 @@ public class Laborant implements Serializable, GeneralDObject {
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Laborant(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"), rs.getString("ime"), rs.getString("prezime"));
     }
-    
-    
+
 }

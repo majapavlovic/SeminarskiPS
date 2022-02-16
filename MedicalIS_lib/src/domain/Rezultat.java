@@ -15,33 +15,32 @@ import java.util.Date;
  */
 public class Rezultat implements Serializable, GeneralDObject {
 
-    Long sifraRezultata;
+    Long brojProtokola;
     String rezultat_analize;
     Date datumIzdavanja;
     Laborant laborant;
-    Uput uput;
 
     public Rezultat() {
     }
 
-    public Rezultat(Long sifraRezultata) {
-        this.sifraRezultata = sifraRezultata;
+    public Rezultat(Long brojProtokola) {
+        this.brojProtokola = brojProtokola;
     }
 
-    public Rezultat(Long sifraRezultata, String rezultat_analize, Date datumIzdavanja, Laborant laborant, Uput uput) {
-        this.sifraRezultata = sifraRezultata;
+    public Rezultat(Long brojProtokola, String rezultat_analize, Date datumIzdavanja, Laborant laborant) {
+        this.brojProtokola = brojProtokola;
         this.rezultat_analize = rezultat_analize;
         this.datumIzdavanja = datumIzdavanja;
         this.laborant = laborant;
-        this.uput = uput;
+        
     }
 
-    public Long getSifraRezultata() {
-        return sifraRezultata;
+    public Long getBrojProtokola() {
+        return brojProtokola;
     }
 
-    public void setSifraRezultata(Long sifraRezultata) {
-        this.sifraRezultata = sifraRezultata;
+    public void setBrojProtokola(Long brojProtokola) {
+        this.brojProtokola = brojProtokola;
     }
 
     public String getRezultat_analize() {
@@ -67,24 +66,15 @@ public class Rezultat implements Serializable, GeneralDObject {
     public void setLaborant(Laborant laborant) {
         this.laborant = laborant;
     }
-
-    public Uput getUput() {
-        return uput;
-    }
-
-    public void setUput(Uput uput) {
-        this.uput = uput;
-    }
-    
     
     @Override
     public String getAtrValue() {
-        return sifraRezultata + ", '"  + rezultat_analize + "', '" + datumIzdavanja + "', " + laborant.getSifraLaboranta() + ", " + uput.getSifraUputa();
+        return brojProtokola + ", '"  + rezultat_analize + "', '" + datumIzdavanja + "', " + laborant.getUsername();
     }
 
     @Override
     public String setAtrValue() {
-        return "sifra_rezultata=" + sifraRezultata + ", rezultat_analize='"  + rezultat_analize + "', datum_izdavanja='" + datumIzdavanja + "', sifra_laboranta=" + laborant.getSifraLaboranta() + ", sifra_uputa=" + uput.getSifraUputa();
+        return "broj_protokola=" + brojProtokola + ", rezultat_analize='"  + rezultat_analize + "', datum_izdavanja='" + datumIzdavanja + "', sifra_laboranta=" + laborant.getUsername();
     }
 
     @Override
@@ -94,7 +84,7 @@ public class Rezultat implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition() {
-        return "sifra_uputa=" + uput.getSifraUputa();
+        return "broj_protokola=" + brojProtokola;
     }
 
     @Override
@@ -104,15 +94,19 @@ public class Rezultat implements Serializable, GeneralDObject {
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Rezultat(rs.getLong("sifra_rezultata"), rs.getString("rezultat_analize"), rs.getDate("datum_izdavanja"), new Laborant(rs.getLong("sifra_laboranta")), new Uput(rs.getLong("sifra_uputa"))); }
+        return new Rezultat(rs.getLong("broj_protokola"), rs.getString("rezultat_analize"), rs.getDate("datum_izdavanja"), new Laborant(rs.getString("korisnicko_ime"))); }
 
     @Override
     public String toString() {
-        return "sifra_rezultata=" + sifraRezultata + ", rezultat_analize='"  + rezultat_analize + 
-                "', datum_izdavanja='" + datumIzdavanja 
-                + ", sifra_uputa=" + uput.getSifraUputa();
+        return "broj_protokola=" + brojProtokola + ", rezultat_analize='"  + rezultat_analize + 
+                "', datum_izdavanja='" + datumIzdavanja + "'";
         
         
+    }
+
+    @Override
+    public String getOrderBy() {
+        return "broj_protokola DESC";
     }
     
     

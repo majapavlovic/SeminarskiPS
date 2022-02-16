@@ -14,7 +14,9 @@ import domain.Lekar;
 import domain.Pol;
 import domain.Rezultat;
 import domain.Uput;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -31,7 +33,8 @@ import javax.swing.JOptionPane;
 public class FrmMain_Lekar extends javax.swing.JFrame {
 
     private Lekar lekar;
-    TableModelUputi tblModelUputi = new TableModelUputi();
+    KartonPacijenta trenutni_pacijent;
+    TableModelUputi tblModelUputi = new TableModelUputi(false);
     List<Uput> uputi;
     List<Rezultat> rezultati;
 
@@ -148,7 +151,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         txtHronicneDijagnoze.setRows(5);
         jScrollPane2.setViewportView(txtHronicneDijagnoze);
 
-        jLabel14.setText("Lista rezultata");
+        jLabel14.setText("Lista uputa i rezultata");
 
         btnNoviUput.setText("Kreiraj novi uput");
         btnNoviUput.addActionListener(new java.awt.event.ActionListener() {
@@ -237,16 +240,15 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                         .addComponent(jLabel11)))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addContainerGap())
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbPol, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(45, 45, 45)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbPol, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel15)
+                                    .addGap(45, 45, 45)))
+                            .addComponent(jLabel14))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
@@ -269,7 +271,10 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtJMBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,18 +284,20 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jLabel16))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel14))
+                            .addComponent(jLabel12)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)))
@@ -322,9 +329,9 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(38, 38, 38)
@@ -332,12 +339,10 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtJMBGnadji, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(179, 179, 179)
-                                .addComponent(btnNadji, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblTrenutniLekar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnNadji, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblTrenutniLekar))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,7 +380,15 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNoviUputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoviUputActionPerformed
-        new FrmKreiranjeUputa(this, true).setVisible(true);
+        Long jmbg;
+        if (!txtJMBG.getText().isEmpty() || trenutni_pacijent.equals(null)) {
+            jmbg = Long.valueOf(txtJMBG.getText());
+
+            new FrmKreiranjeUputa(this, true, trenutni_pacijent, lekar).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Morate prvo odabrati pacijenta za kojeg kreirate uput");
+        }
+
     }//GEN-LAST:event_btnNoviUputActionPerformed
 
     private void btnNadjiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNadjiActionPerformed
@@ -394,13 +407,13 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     private void tblUputiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUputiMouseClicked
         int row = tblUputi.rowAtPoint(evt.getPoint());
-        
+
         JOptionPane.showMessageDialog(this, tblModelUputi.getUputRezultat(row));
-        
+
     }//GEN-LAST:event_tblUputiMouseClicked
 
     private void btnNoviKartonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoviKartonActionPerformed
-        
+
         KartonPacijenta k = new KartonPacijenta();
         k.setJmbg(Long.valueOf(txtJMBG.getText()));
         k.setLbo(Long.valueOf(txtLBO.getText()));
@@ -412,18 +425,21 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         k.setPol(Pol.valueOf(cbPol.getSelectedItem().toString()));
         k.setHronicneDijagnoze(txtHronicneDijagnoze.getText());
         k.setLekar(lekar);
-        
-        ClientController.getInstance().insertNoviKarton(k);
-           /* txtJMBG.setText(pacijent.getJmbg().toString());
-            txtLBO.setText(pacijent.getLbo().toString());
-            txtAdresa.setText(pacijent.getAdresa());
-            txtIme.setText(pacijent.getIme());
-            txtPrezime.setText(pacijent.getPrezime());
-            txtKrvnaGrupa.setText(pacijent.getKrvnaGrupa().toString());
-            txtKontakt.setText(pacijent.getKontaktTelefon());
-            cbPol.setSelectedItem(pacijent.getPol().toString());
-            txtHronicneDijagnoze.setText(pacijent.getHronicneDijagnoze());*/
-        
+
+        int dan = datumRodjenja.getModel().getDay();
+        int mesec = datumRodjenja.getModel().getMonth();
+        int god = datumRodjenja.getModel().getYear();
+        Date date = new Date(god - 1900, mesec + 1, dan);
+
+        k.setDatumRodjenja(date);
+
+        try {
+            ClientController.getInstance().insertNoviKarton(k);
+
+        } catch (Exception ex) {
+            Logger.getLogger(FrmMain_Lekar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnNoviKartonActionPerformed
 
 
@@ -473,65 +489,69 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         pol.add(Pol.Nije_odredjeno.toString());
 
         cbPol.setModel(new DefaultComboBoxModel(pol.toArray()));
-        
+
         tblUputi.setModel(tblModelUputi);
-        
+
         KrvnaGrupa kg = new KrvnaGrupa();
-        
+
         cbKrvnaGrupa.setModel(new DefaultComboBoxModel(kg.getKrvneGrupe().toArray()));
 
     }
 
     public void showKartonPacijenta(Response response) {
-        if(response.getResponseType().equals(ResponseType.SUCCESS)) {
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             KartonPacijenta pacijent = (KartonPacijenta) response.getResponse();
+            trenutni_pacijent = pacijent;
             txtJMBG.setText(pacijent.getJmbg().toString());
             txtLBO.setText(pacijent.getLbo().toString());
             txtAdresa.setText(pacijent.getAdresa());
             txtIme.setText(pacijent.getIme());
             txtPrezime.setText(pacijent.getPrezime());
-           // txtKrvnaGrupa.setText(pacijent.getKrvnaGrupa().toString());
+            // txtKrvnaGrupa.setText(pacijent.getKrvnaGrupa().toString());
             cbKrvnaGrupa.setSelectedItem(pacijent.getKrvnaGrupa());
             txtKontakt.setText(pacijent.getKontaktTelefon());
             cbPol.setSelectedItem(pacijent.getPol().toString());
             txtHronicneDijagnoze.setText(pacijent.getHronicneDijagnoze());
-            
+
             uputi = pacijent.getUputi();
-            for(Uput u : uputi) {
-                System.out.println(u.toString());
-                try {
-                    Rezultat rez = new Rezultat();
-                    ClientController.getInstance().getRezultat(u);
-                } catch (Exception ex) {
-                    Logger.getLogger(FrmMain_Lekar.class.getName()).log(Level.SEVERE, null, ex);
+            if (uputi!=null && !uputi.isEmpty()) {
+                for (Uput u : uputi) {
+                    System.out.println(u.toString());
+                    try {
+                        Rezultat rez = new Rezultat();
+                        ClientController.getInstance().getRezultat(u);
+                    } catch (Exception ex) {
+                        Logger.getLogger(FrmMain_Lekar.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
-            
             tblModelUputi.setUputi(uputi);
 
             Date datumR = pacijent.getDatumRodjenja();
             System.out.println(datumR.toString());
             String datum[] = datumR.toString().split("-");
-            int godina=Integer.valueOf(datum[0]);
-            int mesec=Integer.valueOf(datum[1])-1;
-            int dan=Integer.valueOf(datum[2]);
+            int godina = Integer.valueOf(datum[0]);
+            int mesec = Integer.valueOf(datum[1]) - 1;
+            int dan = Integer.valueOf(datum[2]);
             datumRodjenja.getModel().setDate(godina, mesec, dan);
             datumRodjenja.getModel().setSelected(true);
-            
+
         }
     }
-    
+
     public void showRezultat(Response response) {
-        if(response.getResponseType().equals(ResponseType.SUCCESS)) {
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             Rezultat rezultat = (Rezultat) response.getResponse();
             System.out.println(rezultat.toString());
             rezultati.add(rezultat);
-            
+
             tblModelUputi.setRezultati(rezultati);
         }
-        
+
     }
 
-
+    public void notifyInsert(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
 
 }

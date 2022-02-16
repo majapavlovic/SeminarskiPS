@@ -108,11 +108,12 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         ResultSet rs = null;
         Statement st = null;
         String upit = "SELECT * FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition();
+        System.out.println(upit);
         boolean signal;
         try {
             st = conn.prepareStatement(upit);
             rs = st.executeQuery(upit);
-            signal = rs.next(); // rs.next() vraca true ako ima postoji rezultat upita.
+            signal = rs.next();
             if (signal == true) {
                 odo = odo.getNewRecord(rs);
             } else {
@@ -125,24 +126,75 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         }
         return odo;
     }
-    
-     @Override
+
+    @Override
+    public Long findMaxRecord(GeneralDObject odo) {
+        ResultSet rs = null;
+        Statement st = null;
+        Long max=0l;
+        String upit = "SELECT MAX(" + odo.getFields() + ") FROM " + odo.getClassName();// + " WHERE " + odo.getWhereCondition();
+        boolean signal;
+        try {
+            st = conn.prepareStatement(upit);
+            rs = st.executeQuery(upit);
+            signal = rs.next();
+
+            if (signal == true) {
+                max = rs.getLong("MAX(" + odo.getFields() + ")");
+
+            } else {
+                max=0l;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(null, st, rs);
+        }
+        return max;
+    }
+
+    @Override
     public List<GeneralDObject> findAllRecords(GeneralDObject odo) {
         List<GeneralDObject> list = new ArrayList<>();
         ResultSet rs = null;
         Statement st = null;
-        String upit = "SELECT " + odo.getFields() + " FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition();
+        String upit = "SELECT * FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition();
         boolean signal;
         try {
             st = conn.prepareStatement(upit);
             rs = st.executeQuery(upit);
             signal = rs.next(); // rs.next() vraca true ako ima postoji rezultat upita.
-            while(signal==true) {
+            while (signal == true) {
                 odo = odo.getNewRecord(rs);
                 list.add(odo);
                 signal = rs.next();
-           // } else {
-             //   odo = null;
+                // } else {
+                //   odo = null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(null, st, rs);
+        }
+        return list;
+    }
+    
+     public List<GeneralDObject> findAllRecords_NoCondition(GeneralDObject odo) {
+        List<GeneralDObject> list = new ArrayList<>();
+        ResultSet rs = null;
+        Statement st = null;
+        String upit = "SELECT * FROM " + odo.getClassName() + " ORDER BY " + odo.getOrderBy();
+        boolean signal;
+        try {
+            st = conn.prepareStatement(upit);
+            rs = st.executeQuery(upit);
+            signal = rs.next(); // rs.next() vraca true ako ima postoji rezultat upita.
+            while (signal == true) {
+                odo = odo.getNewRecord(rs);
+                list.add(odo);
+                signal = rs.next();
+                // } else {
+                //   odo = null;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);

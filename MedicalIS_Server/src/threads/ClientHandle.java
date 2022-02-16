@@ -67,6 +67,21 @@ public class ClientHandle extends Thread {
                 break;
             case Operations.GET_REZULTAT:
                 response = sendRezultat(request);
+                break;
+            case Operations.INSERT_PACIJENT:
+                response = ServerController.getInstance().insertKartonPacijetna(request);
+                break;
+            case Operations.INSERT_UPUT:
+                response = ServerController.getInstance().insertUput(request);
+                break;
+            case Operations.GET_ALL_UPUT:
+                response = ServerController.getInstance().sendAllUputi();
+                break;
+            case Operations.GET_ALL_REZULTAT:
+                response = ServerController.getInstance().sendAllRezultati();
+                break;
+            case Operations.LOGIN_LAB:
+                response = loginLab(request);
             default:
         }
         return response;
@@ -109,16 +124,30 @@ public class ClientHandle extends Thread {
     private Response sendRezultat(Request request) {
         Response response = new Response();
         Rezultat r = ServerController.getInstance().getRezultat(request);
-        if(r!=null) {
+        if (r != null) {
             response.setResponse(r);
             response.setOperation(Operations.GET_REZULTAT);
             response.setResponseType(ResponseType.SUCCESS);
-        }
-        else
-        {
+        } else {
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Rezultat nije pronadjen!"));
         }
+        return response;
+    }
+
+    private Response loginLab(Request request) {
+        Response response = new Response();
+        response.setOperation(Operations.LOGIN_LAB);
+        Laborant lab = (Laborant) request.getArgument();
+        Laborant l = ServerController.getInstance().loginLaborant(lab);
+        if (l != null) {
+            response.setResponse(l);
+            response.setResponseType(ResponseType.SUCCESS);
+            laborant = l;
+        } else {
+            response.setResponseType(ResponseType.ERROR);
+        }
+
         return response;
     }
 

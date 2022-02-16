@@ -7,6 +7,7 @@ package domain;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -105,15 +106,16 @@ public class Uput implements Serializable, GeneralDObject {
 
     @Override
     public String getAtrValue() {
-        return sifraUputa + ", '" + datumUputa + "', '"
-                + uputnaDijagnoza + "', " + lekar.getSifraLekara().toString() + ", "
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return sifraUputa + ", '" + formatter.format(datumUputa) + "', '"
+                + uputnaDijagnoza + "', '" + lekar.getUsername() + "', "
                 + pacijent.getJmbg() + ", '" + vrstaUzorka + "', '" + analiza + "'";
     }
 
     @Override
     public String setAtrValue() {
         return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + datumUputa + "', uputna_dijagnoza='"
-                + uputnaDijagnoza + "', sifra_lekara=" + lekar.getSifraLekara().toString() + ", jmbg="
+                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
                 + pacijent.getJmbg() + ", vrsta_uzorka='" + vrstaUzorka + "', analiza='" + analiza + "'";
     }
 
@@ -124,7 +126,7 @@ public class Uput implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition() {
-        return "jmbg = " + pacijent.getJmbg().toString();
+        return "jmbg = " + pacijent.getJmbg().toString() + " ORDER BY sifra_uputa DESC";
     }
 
     @Override
@@ -135,16 +137,28 @@ public class Uput implements Serializable, GeneralDObject {
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
         return new Uput(rs.getLong("sifra_uputa"), rs.getDate("datum_uputa"), 
-                rs.getString("uputna_dijagnoza"), new Lekar(rs.getLong("sifra_lekara")), 
+                rs.getString("uputna_dijagnoza"), new Lekar(rs.getString("sifra_lekara")), 
                 new KartonPacijenta(rs.getLong("jmbg")), rs.getString("vrsta_uzorka"), rs.getString("analiza"));
     }
 
     @Override
     public String toString() {
-        return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + datumUputa + "', uputna_dijagnoza='"
-                + uputnaDijagnoza + "', sifra_lekara=" + lekar.getSifraLekara().toString() + ", jmbg="
-                + pacijent.getJmbg() + ", vrsta_uzorka='" + vrstaUzorka + "', analiza='" + analiza + "'";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + formatter.format(datumUputa) + "', uputna_dijagnoza='"
+                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
+                + pacijent.getJmbg().toString() + ", vrsta_uzorka='" + vrstaUzorka + "', analiza='" + analiza + "'";
     }
+
+    @Override
+    public String getFields() {
+        return "sifra_uputa";
+    }
+
+    @Override
+    public String getOrderBy() {
+        return "sifra_uputa DESC";
+    }
+    
     
 
 }
