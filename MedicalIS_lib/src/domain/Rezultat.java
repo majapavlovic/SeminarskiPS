@@ -115,6 +115,11 @@ public class Rezultat implements Serializable, GeneralDObject {
     public String getOrderBy() {
         return "sifra_rezultata ASC";
     }
+
+    @Override
+    public String getFields() {
+        return "sifra_rezultata";
+    }
     
     
           

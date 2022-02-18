@@ -17,17 +17,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TableModelAnalize extends DefaultTableModel {
 
-    List<Uput> uputi = new ArrayList<>();
     List<Analiza> analize = new ArrayList<>();
     List<Rezultat> rezultati = new ArrayList<>();
     String[] kolone = {"Sifra", "Vrsta uzorka", "Analiza", "Rezultat"};
-    String[] koloneLab = {"Datum", "Sifra analize", "Rezultat"};
-    boolean lab = false;
 
-    public TableModelAnalize(boolean lab) {
-        this.lab=lab;
-    }
-    
     @Override
     public int getRowCount() {
         if (analize != null) {
@@ -52,42 +45,21 @@ public class TableModelAnalize extends DefaultTableModel {
                 break;
             }
         }
-        if (!lab) {
-            {
-                switch (columnIndex) {
-                    case 0:
-                        return a.getSifraAnalize();
-                    case 1:
-                        return a.getVrstaUzorka();
-                    case 2:
-                        return a.getVrstaAnalize();
-                    case 3:
-                        if (rezultat.getSifra_rezultata() != null) {
-                            return rezultat.getRezultat_analize();
-                        } else 
-                            return "Rezultat nije spreman";                     
-                    default:
-                        return "N/A";
+        switch (columnIndex) {
+            case 0:
+                return a.getSifraAnalize();
+            case 1:
+                return a.getVrstaUzorka();
+            case 2:
+                return a.getVrstaAnalize();
+            case 3:
+                if (rezultat.getSifra_rezultata() != null) {
+                    return rezultat.getRezultat_analize();
+                } else {
+                    return "Rezultat nije spreman";
                 }
-            }
-        } else {
-            switch (columnIndex) {
-                case 0:
-                    return a.getSifraAnalize();
-                case 1:
-                    return a.getVrstaUzorka();
-                case 2:
-                    return a.getVrstaAnalize();
-                case 3:
-                    if (rezultat.getSifra_rezultata() != null) {
-                        return rezultat.getRezultat_analize();
-                    } else {
-                        return "Rezultat nije spreman";
-                    }
-                default:
-                    return "N/A";
-
-            }
+            default:
+                return "N/A";
         }
     }
 
@@ -115,6 +87,10 @@ public class TableModelAnalize extends DefaultTableModel {
 
     public List<Rezultat> getRezultati() {
         return rezultati;
+    }
+    
+    public Analiza getAnaliza(int row) {
+        return analize.get(row);
     }
 
     public String getUputRezultat(int row) {
@@ -144,7 +120,7 @@ public class TableModelAnalize extends DefaultTableModel {
         Analiza a = analize.get(row);
         Rezultat rezultat = new Rezultat();
         for (Rezultat rez : rezultati) {
-            if (rez.getSifra_rezultata().equals(a.getSifraAnalize())) {
+            if (rez!=null && rez.getSifra_rezultata().equals(a.getSifraAnalize())) {
                 rezultat = rez;
                 break;
             }

@@ -55,7 +55,7 @@ public class ClientController {
         Request request = new Request(Operations.LOGIN_LEKAR, l);
         clientThread = new ClientThread();
         clientThread.start();
-        
+
         new Sender(clientThread.getSocket()).send(request);
     }
 
@@ -100,7 +100,8 @@ public class ClientController {
     }
 
     public void showRezultati(Response response) {
-        frmLekar.showRezultati(response);
+        if(frmLekar!=null) frmLekar.showRezultati(response);
+        if(frmLaborant!=null) frmLaborant.setRezultati(response);
     }
 
     public void insertNoviKarton(KartonPacijenta k) throws Exception {
@@ -119,8 +120,12 @@ public class ClientController {
     }
 
     public void shutdown() {
-        if(frmLekar!=null) frmLekar.dispose();
-        if(frmLaborant!=null) frmLaborant.dispose();
+        if (frmLekar != null) {
+            frmLekar.dispose();
+        }
+        if (frmLaborant != null) {
+            frmLaborant.dispose();
+        }
         clientThread.interrupt();
         System.exit(1);
     }
@@ -209,14 +214,18 @@ public class ClientController {
     }
 
     public void notifyOthers() throws Exception {
-        Request request = new Request(Operations.REFRESH, null); 
+        Request request = new Request(Operations.REFRESH, null);
         new Sender(clientThread.getSocket()).send(request);
-        
+
     }
 
     public void refresh() {
-        if(frmLaborant!=null) frmLaborant.refresh();
-        if(frmLekar!=null) frmLekar.refresh();
+        if (frmLaborant != null) {
+            frmLaborant.refresh();
+        }
+        if (frmLekar != null) {
+            frmLekar.refresh();
+        }
     }
 
     public void getAnalize() throws Exception {
@@ -227,6 +236,5 @@ public class ClientController {
     public void showAnalize(Response response) {
         frmLaborant.showAnalize(response);
     }
-
 
 }

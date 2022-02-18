@@ -36,7 +36,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     private Lekar lekar;
     KartonPacijenta trenutni_pacijent;
     TableModelUputi tblModelUputi = new TableModelUputi();
-    TableModelAnalize tblModelAnalize = new TableModelAnalize(false);
+    TableModelAnalize tblModelAnalize = new TableModelAnalize();
     List<Uput> uputi;
     List<Analiza> analize;
     List<Rezultat> rezultati;
@@ -226,6 +226,11 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAnalize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAnalizeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAnalize);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -520,6 +525,10 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         cbPol.setSelectedItem("Muski");
         txtLekar.setText("");
     }//GEN-LAST:event_btnOsveziActionPerformed
+
+    private void tblAnalizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAnalizeMouseClicked
+      //   tblModelAnalize.get
+    }//GEN-LAST:event_tblAnalizeMouseClicked
 
     private void prepareForm() {
         List<String> pol = new ArrayList<>();

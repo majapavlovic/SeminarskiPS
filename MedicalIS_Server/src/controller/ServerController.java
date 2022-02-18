@@ -168,7 +168,7 @@ public class ServerController {
 
         Long max = (Long) bbp.findMaxRecord(u);
         List<Analiza> lista = setSifreAnaliza(u, u.getAnalize());
-       
+
         u.setAnalize(lista);
         u.setSifraUputa(max + 1);
         if (bbp.insertRecord(u) && saveAnalize(lista)) {
@@ -209,6 +209,7 @@ public class ServerController {
         for (GeneralDObject odo : odoUputi) {
             u = (Uput) odo;
             u.setLekar((Lekar) bbp.findRecord1(u.getLekar()));
+            u.setAnalize(getAllAnalize(u));
             uputi.add(u);
         }
         if (uputi != null) {
@@ -250,7 +251,12 @@ public class ServerController {
     public Response insertRezultat(Request request) {
         Response response = new Response();
         response.setOperation(Operations.INSERT_REZULTAT);
+
         Rezultat rez = (Rezultat) request.getArgument();
+
+        Long max = bbp.findMaxRecord(rez);
+        rez.setSifra_rezultata(max+1);
+
         if (bbp.insertRecord(rez)) {
             response.setResponseType(ResponseType.SUCCESS);
             bbp.commitTransation();
