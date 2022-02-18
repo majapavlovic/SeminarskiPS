@@ -21,6 +21,7 @@ public abstract class BrokerBazePodataka {
     public abstract boolean updateRecord(GeneralDObject odo); 
     public abstract boolean deleteRecord(GeneralDObject odo);
     public abstract GeneralDObject findRecord(GeneralDObject odo);
+    public abstract GeneralDObject findRecord1(GeneralDObject odo);
     public abstract List<GeneralDObject> findAllRecords(GeneralDObject odo);
     public abstract List<GeneralDObject> findAllRecords_NoCondition(GeneralDObject odo);
     public abstract Long findMaxRecord(GeneralDObject odo);

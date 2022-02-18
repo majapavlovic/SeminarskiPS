@@ -16,4 +16,6 @@ public interface GeneralDObject extends Serializable{
     public default String getFields() { return "*"; }
 
     public default String getOrderBy() { return ""; }
+
+    public default String getWhereCondition1() {return ""; }
 }

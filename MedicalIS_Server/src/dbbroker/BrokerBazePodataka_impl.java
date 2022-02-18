@@ -34,6 +34,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
     @Override
     public boolean insertRecord(GeneralDObject odo) {
         String upit = "INSERT INTO " + odo.getClassName() + " VALUES (" + odo.getAtrValue() + ")";
+        System.out.println(upit);
         return executeUpdate(upit);
     }
 
@@ -108,7 +109,29 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         ResultSet rs = null;
         Statement st = null;
         String upit = "SELECT * FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition();
-        System.out.println(upit);
+        boolean signal;
+        try {
+            st = conn.prepareStatement(upit);
+            rs = st.executeQuery(upit);
+            signal = rs.next();
+            if (signal == true) {
+                odo = odo.getNewRecord(rs);
+            } else {
+                odo = null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            close(null, st, rs);
+        }
+        return odo;
+    }
+
+    @Override
+    public GeneralDObject findRecord1(GeneralDObject odo) {
+        ResultSet rs = null;
+        Statement st = null;
+        String upit = "SELECT * FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition1();
         boolean signal;
         try {
             st = conn.prepareStatement(upit);
@@ -131,7 +154,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
     public Long findMaxRecord(GeneralDObject odo) {
         ResultSet rs = null;
         Statement st = null;
-        Long max=0l;
+        Long max = 0l;
         String upit = "SELECT MAX(" + odo.getFields() + ") FROM " + odo.getClassName();// + " WHERE " + odo.getWhereCondition();
         boolean signal;
         try {
@@ -143,7 +166,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
                 max = rs.getLong("MAX(" + odo.getFields() + ")");
 
             } else {
-                max=0l;
+                max = 0l;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,8 +201,8 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         }
         return list;
     }
-    
-     public List<GeneralDObject> findAllRecords_NoCondition(GeneralDObject odo) {
+
+    public List<GeneralDObject> findAllRecords_NoCondition(GeneralDObject odo) {
         List<GeneralDObject> list = new ArrayList<>();
         ResultSet rs = null;
         Statement st = null;
@@ -254,4 +277,5 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
             }
         }
     }
+
 }

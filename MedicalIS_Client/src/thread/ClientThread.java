@@ -26,14 +26,12 @@ public class ClientThread extends Thread {
     private Lekar lekar;
     private Laborant laborant;
 
-    //FrmLogin frmLogin;
-   // FrmMain frmMain;
 
     public ClientThread() {
         try {
             this.socket = new Socket("127.0.0.1", 9000);
         } catch (IOException ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Greska u konektovanju!");
         }
         
     }
@@ -62,8 +60,8 @@ public class ClientThread extends Thread {
             case Operations.GET_PACIJENT:
                 ClientController.getInstance().showKartonPacijenta(response);
                 break;
-            case Operations.GET_REZULTAT:
-                ClientController.getInstance().showRezultat(response);
+            case Operations.GET_REZULTATI:
+                ClientController.getInstance().showRezultati(response);
                 break;
             case Operations.INSERT_PACIJENT:
                 ClientController.getInstance().notifyInsertPacijent(response);
@@ -83,6 +81,17 @@ public class ClientThread extends Thread {
             case Operations.GET_ALL_REZULTAT:
                 ClientController.getInstance().setRezultati(response);
                 break;
+            case Operations.INSERT_REZULTAT:
+                ClientController.getInstance().notifyInsertRezultat(response);
+                break;
+            case Operations.UPDATE_PACIJENT:
+                ClientController.getInstance().notifyUpdatePacijent(response);
+                break;
+            case Operations.REFRESH:
+                ClientController.getInstance().refresh();
+                break;
+            case Operations.GET_ALL_ANALIZA:
+                ClientController.getInstance().showAnalize(response);
             
         }
     }

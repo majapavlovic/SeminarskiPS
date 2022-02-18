@@ -13,6 +13,7 @@ import java.sql.SQLException;
  * @author Maja
  */
 public class Lekar implements Serializable, GeneralDObject {
+
     String username;
     String password;
     String ime;
@@ -36,8 +37,6 @@ public class Lekar implements Serializable, GeneralDObject {
         this.username = username;
         this.password = password;
     }
-    
-    
 
     public String getIme() {
         return ime;
@@ -78,7 +77,7 @@ public class Lekar implements Serializable, GeneralDObject {
 
     @Override
     public String setAtrValue() {
-        return "korisnicko_ime='" + username + "', korisnicka_sifra='" + password + ", ime='" + ime + "', prezime='" + prezime  + "'";
+        return "korisnicko_ime='" + username + "', korisnicka_sifra='" + password + ", ime='" + ime + "', prezime='" + prezime + "'";
     }
 
     @Override
@@ -98,7 +97,12 @@ public class Lekar implements Serializable, GeneralDObject {
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Lekar(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"),rs.getString("ime"), rs.getString("prezime"));
+        return new Lekar(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"), rs.getString("ime"), rs.getString("prezime"));
+    }
+
+    @Override
+    public String getWhereCondition1() {
+        return "korisnicko_ime='" + username + "'";
     }
 
 }

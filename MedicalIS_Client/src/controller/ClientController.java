@@ -9,12 +9,15 @@ import communication.Request;
 import communication.Response;
 import communication.ResponseType;
 import communication.Sender;
+import domain.Analiza;
 import domain.KartonPacijenta;
 import domain.Laborant;
 import domain.Lekar;
+import domain.Rezultat;
 import domain.Uput;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SpringLayout;
 import thread.ClientThread;
 import view.FrmKreiranjeUputa;
 import view.FrmLogin;
@@ -52,7 +55,7 @@ public class ClientController {
         Request request = new Request(Operations.LOGIN_LEKAR, l);
         clientThread = new ClientThread();
         clientThread.start();
-
+        
         new Sender(clientThread.getSocket()).send(request);
     }
 
@@ -77,8 +80,11 @@ public class ClientController {
 
     }
 
-    public void getKartonPacijenta(Long jmbg) throws Exception {
-        Request request = new Request(Operations.GET_PACIJENT, jmbg);
+    public void getKartonPacijenta(Long jmbg, String lekar) throws Exception {
+        Lekar l = new Lekar(lekar);
+        KartonPacijenta kp = new KartonPacijenta(jmbg);
+        kp.setLekar(l);
+        Request request = new Request(Operations.GET_PACIJENT, kp);
         new Sender(clientThread.getSocket()).send(request);
     }
 
@@ -88,13 +94,13 @@ public class ClientController {
         frmLekar.showKartonPacijenta(response);
     }
 
-    public void getRezultat(Uput u) throws Exception {
-        Request request = new Request(Operations.GET_REZULTAT, u);
+    public void getRezultat(List<Analiza> a) throws Exception {
+        Request request = new Request(Operations.GET_REZULTATI, a);
         new Sender(clientThread.getSocket()).send(request);
     }
 
-    public void showRezultat(Response response) {
-        frmLekar.showRezultat(response);
+    public void showRezultati(Response response) {
+        frmLekar.showRezultati(response);
     }
 
     public void insertNoviKarton(KartonPacijenta k) throws Exception {
@@ -109,14 +115,14 @@ public class ClientController {
         } else {
             message = response.getException().getMessage();
         }
-        frmLekar.notifyInsert(message);
+        frmLekar.notifyUser(message);
     }
 
     public void shutdown() {
-        frmLekar.dispose();
-        frmLogin.dispose();
-        frmLaborant.dispose();
-        System.exit(0);
+        if(frmLekar!=null) frmLekar.dispose();
+        if(frmLaborant!=null) frmLaborant.dispose();
+        clientThread.interrupt();
+        System.exit(1);
     }
 
     public void insertUput(Uput u) throws Exception {
@@ -170,5 +176,57 @@ public class ClientController {
     public void loginLaborantResponse(Response response) {
         frmLogin.loginLab(response);
     }
+
+    public void insertRezultat(Rezultat rez) throws Exception {
+        Request request = new Request(Operations.INSERT_REZULTAT, rez);
+        new Sender(clientThread.getSocket()).send(request);
+    }
+
+    public void notifyInsertRezultat(Response response) {
+        String message;
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            message = "Uspesno unet rezultat.";
+        } else {
+            message = response.getException().getMessage();
+        }
+        frmLaborant.notifyInsert(message);
+    }
+
+    public void updatePacijent(KartonPacijenta k) throws Exception {
+        Request request = new Request(Operations.UPDATE_PACIJENT, k);
+        new Sender(clientThread.getSocket()).send(request);
+
+    }
+
+    public void notifyUpdatePacijent(Response response) {
+        String message;
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            message = "Uspesno azuriran karton pacijenta.";
+        } else {
+            message = response.getException().getMessage();
+        }
+        frmLekar.notifyUser(message);
+    }
+
+    public void notifyOthers() throws Exception {
+        Request request = new Request(Operations.REFRESH, null); 
+        new Sender(clientThread.getSocket()).send(request);
+        
+    }
+
+    public void refresh() {
+        if(frmLaborant!=null) frmLaborant.refresh();
+        if(frmLekar!=null) frmLekar.refresh();
+    }
+
+    public void getAnalize() throws Exception {
+        Request request = new Request(Operations.GET_ALL_ANALIZA, null);
+        new Sender(clientThread.getSocket()).send(request);
+    }
+
+    public void showAnalize(Response response) {
+        frmLaborant.showAnalize(response);
+    }
+
 
 }

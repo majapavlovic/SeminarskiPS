@@ -7,6 +7,7 @@ package domain;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,34 +16,39 @@ import java.util.Date;
  */
 public class Rezultat implements Serializable, GeneralDObject {
 
-    Long brojProtokola;
+    Long sifra_rezultata;
     String rezultat_analize;
     Date datumIzdavanja;
     Laborant laborant;
+    Analiza analiza;
 
     public Rezultat() {
     }
 
-    public Rezultat(Long brojProtokola) {
-        this.brojProtokola = brojProtokola;
-    }
-
-    public Rezultat(Long brojProtokola, String rezultat_analize, Date datumIzdavanja, Laborant laborant) {
-        this.brojProtokola = brojProtokola;
+    public Rezultat(Long sifra_rezultata, String rezultat_analize, Date datumIzdavanja, Laborant laborant, Analiza analiza) {
+        this.sifra_rezultata = sifra_rezultata;
         this.rezultat_analize = rezultat_analize;
         this.datumIzdavanja = datumIzdavanja;
         this.laborant = laborant;
-        
+        this.analiza = analiza;
     }
 
-    public Long getBrojProtokola() {
-        return brojProtokola;
+    public Long getSifra_rezultata() {
+        return sifra_rezultata;
     }
 
-    public void setBrojProtokola(Long brojProtokola) {
-        this.brojProtokola = brojProtokola;
+    public void setSifra_rezultata(Long sifra_rezultata) {
+        this.sifra_rezultata = sifra_rezultata;
     }
 
+    public Analiza getAnaliza() {
+        return analiza;
+    }
+
+    public void setAnaliza(Analiza analiza) {
+        this.analiza = analiza;
+    }
+    
     public String getRezultat_analize() {
         return rezultat_analize;
     }
@@ -69,12 +75,13 @@ public class Rezultat implements Serializable, GeneralDObject {
     
     @Override
     public String getAtrValue() {
-        return brojProtokola + ", '"  + rezultat_analize + "', '" + datumIzdavanja + "', " + laborant.getUsername();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return sifra_rezultata + ", '"  + rezultat_analize + "', '" + formatter.format(datumIzdavanja) + "', '" + laborant.getUsername() + "', " + analiza.getSifraAnalize();
     }
 
     @Override
     public String setAtrValue() {
-        return "broj_protokola=" + brojProtokola + ", rezultat_analize='"  + rezultat_analize + "', datum_izdavanja='" + datumIzdavanja + "', sifra_laboranta=" + laborant.getUsername();
+        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='"  + rezultat_analize + "', datum_izdavanja='" + datumIzdavanja + "', laborant='" + laborant.getUsername() + "', sifra_analize=" + analiza.getSifraAnalize();
     }
 
     @Override
@@ -84,7 +91,7 @@ public class Rezultat implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition() {
-        return "broj_protokola=" + brojProtokola;
+        return "sifra_analize = " + analiza.getSifraAnalize();
     }
 
     @Override
@@ -94,19 +101,19 @@ public class Rezultat implements Serializable, GeneralDObject {
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Rezultat(rs.getLong("broj_protokola"), rs.getString("rezultat_analize"), rs.getDate("datum_izdavanja"), new Laborant(rs.getString("korisnicko_ime"))); }
+        return new Rezultat(rs.getLong("sifra_rezultata"), rs.getString("rezultat_analize"), rs.getDate("datum_izdavanja"), new Laborant(rs.getString("laborant")), new Analiza(rs.getLong("sifra_analize"))); }
 
     @Override
     public String toString() {
-        return "broj_protokola=" + brojProtokola + ", rezultat_analize='"  + rezultat_analize + 
-                "', datum_izdavanja='" + datumIzdavanja + "'";
+        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='"  + rezultat_analize + 
+                "', datum_izdavanja='" + datumIzdavanja + "";
         
         
     }
 
     @Override
     public String getOrderBy() {
-        return "broj_protokola DESC";
+        return "sifra_rezultata ASC";
     }
     
     

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -21,27 +22,35 @@ public class Uput implements Serializable, GeneralDObject {
     String uputnaDijagnoza;
     Lekar lekar;
     KartonPacijenta pacijent;
-    String vrstaUzorka;
-    String analiza;
-
+    
+    List<Analiza> analize;
+   
     public Uput() {
     }
 
-    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, KartonPacijenta pacijent, String vrstaUzorka, String analiza) {
+    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, KartonPacijenta pacijent, List<Analiza> analize) {
         this.sifraUputa = sifraUputa;
         this.datumUputa = datumUputa;
         this.uputnaDijagnoza = uputnaDijagnoza;
         this.lekar = lekar;
         this.pacijent = pacijent;
-        this.vrstaUzorka = vrstaUzorka;
-        this.analiza = analiza;
+        this.analize=analize;
+       
     }
+
+    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, KartonPacijenta pacijent) {
+        this.sifraUputa = sifraUputa;
+        this.datumUputa = datumUputa;
+        this.uputnaDijagnoza = uputnaDijagnoza;
+        this.lekar = lekar;
+        this.pacijent = pacijent;
+    }
+    
      public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, String vrstaUzorka) {
         this.sifraUputa = sifraUputa;
         this.datumUputa = datumUputa;
         this.uputnaDijagnoza = uputnaDijagnoza;
 
-        this.vrstaUzorka = vrstaUzorka;
     }
 
     public Uput(Long sifraUputa) {
@@ -88,20 +97,12 @@ public class Uput implements Serializable, GeneralDObject {
         this.pacijent = pacijent;
     }
 
-    public String getVrstaUzorka() {
-        return vrstaUzorka;
+    public List<Analiza> getAnalize() {
+        return analize;
     }
 
-    public void setVrstaUzorka(String vrstaUzorka) {
-        this.vrstaUzorka = vrstaUzorka;
-    }
-
-    public String getAnaliza() {
-        return analiza;
-    }
-
-    public void setAnaliza(String analiza) {
-        this.analiza = analiza;
+    public void setAnalize(List<Analiza> analize) {
+        this.analize = analize;
     }
 
     @Override
@@ -109,14 +110,14 @@ public class Uput implements Serializable, GeneralDObject {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return sifraUputa + ", '" + formatter.format(datumUputa) + "', '"
                 + uputnaDijagnoza + "', '" + lekar.getUsername() + "', "
-                + pacijent.getJmbg() + ", '" + vrstaUzorka + "', '" + analiza + "'";
+                + pacijent.getJmbg();
     }
 
     @Override
     public String setAtrValue() {
         return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + datumUputa + "', uputna_dijagnoza='"
                 + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
-                + pacijent.getJmbg() + ", vrsta_uzorka='" + vrstaUzorka + "', analiza='" + analiza + "'";
+                + pacijent.getJmbg();
     }
 
     @Override
@@ -138,7 +139,7 @@ public class Uput implements Serializable, GeneralDObject {
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
         return new Uput(rs.getLong("sifra_uputa"), rs.getDate("datum_uputa"), 
                 rs.getString("uputna_dijagnoza"), new Lekar(rs.getString("sifra_lekara")), 
-                new KartonPacijenta(rs.getLong("jmbg")), rs.getString("vrsta_uzorka"), rs.getString("analiza"));
+                new KartonPacijenta(rs.getLong("jmbg")));
     }
 
     @Override
@@ -146,7 +147,7 @@ public class Uput implements Serializable, GeneralDObject {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + formatter.format(datumUputa) + "', uputna_dijagnoza='"
                 + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
-                + pacijent.getJmbg().toString() + ", vrsta_uzorka='" + vrstaUzorka + "', analiza='" + analiza + "'";
+                + pacijent.getJmbg().toString();
     }
 
     @Override
@@ -158,7 +159,6 @@ public class Uput implements Serializable, GeneralDObject {
     public String getOrderBy() {
         return "sifra_uputa DESC";
     }
-    
     
 
 }

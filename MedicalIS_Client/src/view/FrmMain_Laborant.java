@@ -5,12 +5,15 @@
 package view;
 
 import communication.Response;
-import component.TableModelUputi;
+import communication.ResponseType;
+import component.TableModelAnalize;
 import controller.ClientController;
+import domain.Analiza;
 import domain.Laborant;
 import domain.Rezultat;
 import domain.Uput;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +27,10 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
     Laborant laborant;
     List<Rezultat> rezultati = new ArrayList<>();
-    List<Uput> uputi = new ArrayList<>();
-    TableModelUputi tblModelUputiRez;
+    List<Analiza> analize = new ArrayList<>();
+    TableModelAnalize tblModelAnalize;
     Uput uput;
+    Analiza analiza;
     Rezultat rezultat;
 
     /**
@@ -52,7 +56,7 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUputi = new javax.swing.JTable();
+        tblAnalizeRez = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -84,7 +88,7 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MedicalIS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 2, 14), new java.awt.Color(0, 153, 255))); // NOI18N
 
-        tblUputi.setModel(new javax.swing.table.DefaultTableModel(
+        tblAnalizeRez.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -95,12 +99,12 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblUputi.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblAnalizeRez.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblUputiMouseClicked(evt);
+                tblAnalizeRezMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblUputi);
+        jScrollPane1.setViewportView(tblAnalizeRez);
 
         jLabel1.setText("Lista uputa");
 
@@ -108,16 +112,25 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
         jLabel2.setText("Broj protokola");
 
-        txtSifraUputa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtSifraUputa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtSifraUputa.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtSifraUputa.setEnabled(false);
+        txtSifraUputa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSifraUputaActionPerformed(evt);
+            }
+        });
 
+        txtDatumUputa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtDatumUputa.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtDatumUputa.setEnabled(false);
 
         jLabel3.setText("Datum uputa");
 
         jLabel6.setText("Lekar");
 
+        txtLekar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtLekar.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtLekar.setEnabled(false);
 
         txtRezultat.setColumns(20);
@@ -135,13 +148,20 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
         jLabel10.setText("Vrsta uzorka");
 
+        txtVrstaUzorka.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtVrstaUzorka.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtVrstaUzorka.setEnabled(false);
 
         jLabel4.setText("Analiza");
 
+        txtAnaliza.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtAnaliza.setEnabled(false);
 
         jLabel5.setText("Laborant");
+
+        txtLaborant.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtLaborant.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txtLaborant.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -272,35 +292,51 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnZapamtiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZapamtiActionPerformed
-       // if(uput!=null && rezultat!=null && !txtSifraUputa.getText().isEmpty()) {
-          //  ClientController.getInstance()
-       // }
+        if (uput != null && rezultat != null && !txtSifraUputa.getText().isEmpty() && !txtRezultat.getText().isEmpty()) {
+            try {
+                Rezultat rez = new Rezultat();
+                rez.setBrojProtokola(uput.getSifraUputa());
+                rez.setRezultat_analize(txtRezultat.getText());
+                rez.setLaborant(laborant);
+                rez.setDatumIzdavanja(new Date());
+
+                ClientController.getInstance().insertRezultat(rez);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Morate odabrati uput i upisati vrednost rezultata!", "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnZapamtiActionPerformed
 
-    private void tblUputiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUputiMouseClicked
+    private void tblAnalizeRezMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAnalizeRezMouseClicked
 
-        int row = tblUputi.rowAtPoint(evt.getPoint());
+        int row = tblAnalizeRez.rowAtPoint(evt.getPoint());
 
-        Uput u = tblModelUputiRez.getUput(row);
-        Rezultat r = tblModelUputiRez.getRezultat(row);
-        
+        Uput u = tblModelAnalize.getUput(row);
+        Rezultat r = tblModelAnalize.getRezultat(row);
+
         uput = u;
         rezultat = r;
-        
+
         txtAnaliza.setText(u.getAnaliza());
         txtSifraUputa.setText(u.getSifraUputa().toString());
         txtDatumUputa.setText(u.getDatumUputa().toString());
         txtVrstaUzorka.setText(u.getVrstaUzorka());
         txtLekar.setText(u.getLekar().getIme() + " " + u.getLekar().getPrezime());
-        
-        if(r.getBrojProtokola()!=null) {
-            txtRezultat.setText("Upisite rezultat analize..");
+        if (rezultat != null && rezultat.getRezultat_analize() != null) {
+            txtRezultat.setText(r.getRezultat_analize());
+            txtLaborant.setText(r.getLaborant().getIme() + " " + r.getLaborant().getPrezime());
         }
-        else txtRezultat.setText(r.getRezultat_analize());
-        
+
         //JOptionPane.showMessageDialog(this, tblModelUputi.getUputRezultat(row));
-       
-    }//GEN-LAST:event_tblUputiMouseClicked
+
+    }//GEN-LAST:event_tblAnalizeRezMouseClicked
+
+    private void txtSifraUputaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSifraUputaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSifraUputaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -320,7 +356,7 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblLaborant;
-    private javax.swing.JTable tblUputi;
+    private javax.swing.JTable tblAnalizeRez;
     private javax.swing.JTextField txtAnaliza;
     private javax.swing.JTextField txtDatumUputa;
     private javax.swing.JTextField txtLaborant;
@@ -332,26 +368,49 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
     private void prepareForm() {
         try {
-            ClientController.getInstance().getUputi();
+            ClientController.getInstance().getAnalize();
             ClientController.getInstance().getRezultati();
 
-            tblModelUputiRez = new TableModelUputi(true);
-            tblUputi.setModel(tblModelUputiRez);
-            
+            tblModelAnalize = new TableModelAnalize();
+            tblAnalizeRez.setModel(tblModelAnalize);
+
             lblLaborant.setText(laborant.getIme() + " " + laborant.getPrezime() + "(" + laborant.getUsername() + ")");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Greska u preuzimanju podataka: " + ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void setRezultati(Response response) {
+        rezultati = (List<Rezultat>) response.getResponse();
+        for (Rezultat r : rezultati) {
+            System.out.println();
+        }
+
+        if (!analize.isEmpty()) {
+            tblModelAnalize.setAnalizeRezultati(analize, rezultati);
+        }
+        //tblModelUputiRez.setRezultati(rezultati);
+    }
+
+    public void notifyInsert(String message) {
+        JOptionPane.showMessageDialog(this, message);
+
+        try {
+            ClientController.getInstance().getRezultati();
+            ClientController.getInstance().notifyOthers();
         } catch (Exception ex) {
             Logger.getLogger(FrmMain_Laborant.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setUputi(Response response) {
-        uputi = (List<Uput>) response.getResponse();
-        tblModelUputiRez.setUputi(uputi);
-
+    public void refresh() {
+        prepareForm();
     }
 
-    public void setRezultati(Response response) {
-        rezultati = (List<Rezultat>) response.getResponse();
-        tblModelUputiRez.setRezultati(rezultati);
+    public void showAnalize(Response response) {
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            analize = (List<Analiza>) response.getResponse();
+            tblModelAnalize.setAnalize(analize);
+        }
     }
 }

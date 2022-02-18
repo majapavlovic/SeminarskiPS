@@ -8,6 +8,7 @@ import communication.Operations;
 import communication.Response;
 import communication.ResponseType;
 import communication.Sender;
+import controller.ServerController;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,9 +41,10 @@ public class ServerThread extends Thread {
                 ClientHandle client = new ClientHandle(socket);
                 client.start();
                 clients.add(client);
+                ServerController.getInstance().showLoggedUsers(clients);
 
             } catch (IOException ex) {
-                Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -56,7 +58,7 @@ public class ServerThread extends Thread {
         Response response = new Response();
         try {
             for (ClientHandle cl : clients) {
-              //  System.out.println(cl.getKorisnik().getEmail());
+                //  System.out.println(cl.getKorisnik().getEmail());
 
                 response.setOperation(Operations.SHUTDOWN);
                 response.setResponseType(ResponseType.SUCCESS);
@@ -64,7 +66,7 @@ public class ServerThread extends Thread {
                 cl.getSocket().close();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -73,6 +75,19 @@ public class ServerThread extends Thread {
         serverSocket.close();
     }
 
-
-
+    public void sendRefreshToAll() {
+        Response response = new Response();
+        response.setOperation(Operations.REFRESH);
+        response.setResponseType(ResponseType.SUCCESS);
+        if (!clients.isEmpty()) {
+            for (ClientHandle c : clients) {
+                try {
+                    //if ((c.getLekar()!=null && !c.getLekar()!=)) {
+                    new Sender(c.getSocket()).send(response);
+                } catch (Exception ex) {
+                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
 }

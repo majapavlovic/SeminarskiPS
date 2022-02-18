@@ -29,7 +29,7 @@ public class Laborant implements Serializable, GeneralDObject {
         this.ime = ime;
         this.prezime = prezime;
     }
-    
+
     public Laborant(String username) {
         this.username = username;
     }
@@ -95,6 +95,11 @@ public class Laborant implements Serializable, GeneralDObject {
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
         return new Laborant(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"), rs.getString("ime"), rs.getString("prezime"));
+    }
+
+    @Override
+    public String getWhereCondition1() {
+        return "korisnicko_ime='" + username + "'";
     }
 
 }

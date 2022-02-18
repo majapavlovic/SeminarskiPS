@@ -50,7 +50,7 @@ public class ClientHandle extends Thread {
                 Response response = handle(request);
                 new Sender(socket).send(response);
             } catch (Exception ex) {
-                Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -65,8 +65,8 @@ public class ClientHandle extends Thread {
             case Operations.GET_PACIJENT:
                 response = sendKartonPacijenta(request);
                 break;
-            case Operations.GET_REZULTAT:
-                response = sendRezultat(request);
+            case Operations.GET_REZULTATI:
+                response = sendRezultati(request);
                 break;
             case Operations.INSERT_PACIJENT:
                 response = ServerController.getInstance().insertKartonPacijetna(request);
@@ -82,6 +82,19 @@ public class ClientHandle extends Thread {
                 break;
             case Operations.LOGIN_LAB:
                 response = loginLab(request);
+                break;
+            case Operations.INSERT_REZULTAT:
+                response = ServerController.getInstance().insertRezultat(request);
+                break;
+            case Operations.UPDATE_PACIJENT:
+                response = ServerController.getInstance().updatePacijent(request);
+                break;
+            case Operations.REFRESH:
+                ServerController.getInstance().sendRefreshToAll();
+                break;
+            case Operations.GET_ALL_ANALIZA:
+                response = ServerController.getInstance().getAllAnalize();
+                break;
             default:
         }
         return response;
@@ -96,7 +109,6 @@ public class ClientHandle extends Thread {
             response.setResponse(l);
             response.setResponseType(ResponseType.SUCCESS);
             lekar = l;
-            System.out.println(lekar.getIme());
         } else {
             response.setResponseType(ResponseType.ERROR);
         }
@@ -106,14 +118,11 @@ public class ClientHandle extends Thread {
 
     private Response sendKartonPacijenta(Request request) {
         Response response = new Response();
-        KartonPacijenta p = ServerController.getInstance().sendKartonPacijenta(request);
-        System.out.println(p);
-        System.out.println(p.getJmbg().toString() + ", " + p.getIme());
+        response.setOperation(Operations.GET_PACIJENT);
+        KartonPacijenta p = ServerController.getInstance().sendKartonPacijenta(request, lekar);
         if (!p.equals(null)) {
             response.setResponse(p);
-            System.out.println(response.getResponse());
             response.setResponseType(ResponseType.SUCCESS);
-            response.setOperation(Operations.GET_PACIJENT);
         } else {
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Nepostojeci karton pacijenta!"));
@@ -121,12 +130,13 @@ public class ClientHandle extends Thread {
         return response;
     }
 
-    private Response sendRezultat(Request request) {
+    private Response sendRezultati(Request request) {
         Response response = new Response();
-        Rezultat r = ServerController.getInstance().getRezultat(request);
+        response.setOperation(Operations.GET_REZULTATI);
+
+        List<Rezultat> r = ServerController.getInstance().getListaRezultata(request);
         if (r != null) {
             response.setResponse(r);
-            response.setOperation(Operations.GET_REZULTAT);
             response.setResponseType(ResponseType.SUCCESS);
         } else {
             response.setResponseType(ResponseType.ERROR);
@@ -149,6 +159,14 @@ public class ClientHandle extends Thread {
         }
 
         return response;
+    }
+
+    public Lekar getLekar() {
+        return lekar;
+    }
+
+    public Laborant getLaborant() {
+        return laborant;
     }
 
 }
