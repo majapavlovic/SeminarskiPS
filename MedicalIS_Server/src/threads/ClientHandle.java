@@ -109,6 +109,7 @@ public class ClientHandle extends Thread {
             response.setResponse(l);
             response.setResponseType(ResponseType.SUCCESS);
             lekar = l;
+            ServerController.getInstance().showLoggedUsers(l);
         } else {
             response.setResponseType(ResponseType.ERROR);
         }
@@ -154,6 +155,7 @@ public class ClientHandle extends Thread {
             response.setResponse(l);
             response.setResponseType(ResponseType.SUCCESS);
             laborant = l;
+            ServerController.getInstance().showLoggedUsers(l);
         } else {
             response.setResponseType(ResponseType.ERROR);
         }

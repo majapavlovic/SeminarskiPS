@@ -141,7 +141,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtJMBGnadji">
           <Properties>
-            <Property name="text" type="java.lang.String" value="2703999715077"/>
+            <Property name="text" type="java.lang.String" value="1111111111111"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnNadji">

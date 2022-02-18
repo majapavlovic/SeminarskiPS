@@ -293,16 +293,8 @@ public class ServerController {
         form = frm;
     }
 
-    public void showLoggedUsers(List<ClientHandle> clients) {
-        List<GeneralDObject> korisnici = new ArrayList<>();
-        for (ClientHandle client : clients) {
-            if (client.getLekar() != null) {
-                korisnici.add(client.getLekar());
-            } else if (client.getLaborant() != null) {
-                korisnici.add(client.getLaborant());
-            }
-        }
-        form.showKorisnici(korisnici);
+    public void showLoggedUsers(GeneralDObject odo) {
+        form.showKorisnici(odo);
     }
 
 }

@@ -41,8 +41,6 @@ public class ServerThread extends Thread {
                 ClientHandle client = new ClientHandle(socket);
                 client.start();
                 clients.add(client);
-                ServerController.getInstance().showLoggedUsers(clients);
-
             } catch (IOException ex) {
                 //Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
             }

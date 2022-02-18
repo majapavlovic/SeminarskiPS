@@ -70,4 +70,10 @@ public class TableModelKorisnici extends AbstractTableModel {
         this.korisnici = korisnici;
         fireTableDataChanged();
     }
+
+    @Override
+    public String getColumnName(int column) {
+        return kolone[column];
+    }
+    
 }

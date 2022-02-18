@@ -7,6 +7,7 @@ package view;
 import component.TableModelKorisnici;
 import controller.ServerController;
 import domain.GeneralDObject;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.TableModel;
 
@@ -17,6 +18,7 @@ import javax.swing.table.TableModel;
 public class FrmMain extends javax.swing.JFrame {
 
     TableModelKorisnici tblModelKor;
+    List<GeneralDObject> lista = new ArrayList<>();
     /**
      * Creates new form FrmMain
      */
@@ -134,7 +136,8 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JTable tblKorisnici;
     // End of variables declaration//GEN-END:variables
 
-    public void showKorisnici(List<GeneralDObject> korisnici) {
-        tblModelKor.setKorisnici(korisnici);
+    public void showKorisnici(GeneralDObject odo) {
+        lista.add(odo);
+        tblModelKor.setKorisnici(lista);
     }
 }

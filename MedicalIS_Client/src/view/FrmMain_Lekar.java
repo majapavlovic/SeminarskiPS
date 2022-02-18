@@ -128,7 +128,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
         jLabel1.setText("Pretrazi karton pacijenta");
 
-        txtJMBGnadji.setText("2703999715077");
+        txtJMBGnadji.setText("1111111111111");
 
         btnNadji.setText("Nadji");
         btnNadji.addActionListener(new java.awt.event.ActionListener() {
