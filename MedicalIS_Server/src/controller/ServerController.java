@@ -22,6 +22,12 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import so.AbstractSO;
+import so.AddKartonPacijenta;
+import so.FindKartonPacijenta;
+import so.InsertUput;
+import so.UpdateKartonPacijenta;
 import threads.ClientHandle;
 import threads.ServerThread;
 import view.FrmMain;
@@ -144,7 +150,7 @@ public class ServerController {
     }
 
     public Response insertKartonPacijetna(Request request) {
-        KartonPacijenta k = (KartonPacijenta) request.getArgument();
+        /* KartonPacijenta k = (KartonPacijenta) request.getArgument();
         Response response = new Response();
         response.setOperation(Operations.INSERT_PACIJENT);
 
@@ -157,11 +163,26 @@ public class ServerController {
             response.setResponseType(ResponseType.ERROR);
 
         }
+        return response; */
+        Response response = new Response();
+        response.setOperation(Operations.INSERT_PACIJENT);
+        KartonPacijenta k = (KartonPacijenta) request.getArgument();
+        AbstractSO addPacijentSO = new AddKartonPacijenta();
+        try {
+            addPacijentSO.execute(k);
+
+            response.setResponseType(ResponseType.SUCCESS);
+
+        } catch (Exception ex) {
+            response.setResponseType(ResponseType.ERROR);
+            response.setException(ex);
+            ex.printStackTrace();
+        }
         return response;
     }
 
     public Response insertUput(Request request) {
-        Response response = new Response();
+        /* Response response = new Response();
         response.setOperation(Operations.INSERT_UPUT);
 
         Uput u = (Uput) request.getArgument();
@@ -177,6 +198,23 @@ public class ServerController {
             response.setResponse(u);
         } else {
             bbp.rollbackTransation();
+            response.setException(new Exception("Neuspesan unos uputa."));
+            response.setResponseType(ResponseType.ERROR);
+        }
+        return response;*/
+
+        Response response = new Response();
+        response.setOperation(Operations.INSERT_UPUT);
+
+        AbstractSO insertUput = new InsertUput();
+        Uput u = (Uput) request.getArgument();
+        try {
+            insertUput.execute(u);
+
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(u);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
             response.setException(new Exception("Neuspesan unos uputa."));
             response.setResponseType(ResponseType.ERROR);
         }
@@ -255,7 +293,7 @@ public class ServerController {
         Rezultat rez = (Rezultat) request.getArgument();
 
         Long max = bbp.findMaxRecord(rez);
-        rez.setSifra_rezultata(max+1);
+        rez.setSifra_rezultata(max + 1);
 
         if (bbp.insertRecord(rez)) {
             response.setResponseType(ResponseType.SUCCESS);
@@ -270,7 +308,7 @@ public class ServerController {
     }
 
     public Response updatePacijent(Request request) {
-        KartonPacijenta p = (KartonPacijenta) request.getArgument();
+        /* KartonPacijenta p = (KartonPacijenta) request.getArgument();
         Response response = new Response();
         response.setOperation(Operations.UPDATE_PACIJENT);
         if (bbp.updateRecord(p)) {
@@ -281,6 +319,20 @@ public class ServerController {
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Neuspesno azuriranje kartona pacijenta"));
             bbp.rollbackTransation();
+        }
+        return response;*/
+
+        Response response = new Response();
+        response.setOperation(Operations.UPDATE_PACIJENT);
+        KartonPacijenta p = (KartonPacijenta) request.getArgument();
+        AbstractSO updatePacijent = new UpdateKartonPacijenta();
+        try {
+            updatePacijent.execute(p);
+            response.setResponseType(ResponseType.SUCCESS);
+
+        } catch (Exception ex) {
+            response.setResponseType(ResponseType.ERROR);
+            response.setException(new Exception("Neuspesno azuriranje kartona pacijenta\n" + ex.getMessage()));
         }
         return response;
     }
@@ -295,6 +347,15 @@ public class ServerController {
 
     public void showLoggedUsers(GeneralDObject odo) {
         form.showKorisnici(odo);
+    }
+
+    public KartonPacijenta findKartonPacijenta(Request request) throws Exception {      //NOVA !!
+        KartonPacijenta k = (KartonPacijenta) request.getArgument();
+        System.out.println(k.getJmbg().toString());
+        AbstractSO findKP = new FindKartonPacijenta();
+        findKP.execute(k);
+        System.out.println("Get result = " + findKP.getResult());
+        return (KartonPacijenta) findKP.getResult();
     }
 
 }

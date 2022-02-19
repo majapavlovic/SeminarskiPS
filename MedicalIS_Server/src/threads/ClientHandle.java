@@ -15,7 +15,9 @@ import domain.KartonPacijenta;
 import domain.Laborant;
 import domain.Lekar;
 import domain.Rezultat;
+import domain.Uput;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,8 +64,9 @@ public class ClientHandle extends Thread {
             case Operations.LOGIN_LEKAR:
                 response = loginLekar(request);
                 break;
-            case Operations.GET_PACIJENT:
-                response = sendKartonPacijenta(request);
+            case Operations.GET_PACIJENT:       //OVDE SADA ISPROBAVAM ABSTRACT SO
+                response = findKartonPacijenta(request);
+                //response = ServerController.getInstance().findKartonPacijenta(request);
                 break;
             case Operations.GET_REZULTATI:
                 response = sendRezultati(request);
@@ -169,6 +172,25 @@ public class ClientHandle extends Thread {
 
     public Laborant getLaborant() {
         return laborant;
+    }
+
+    private Response findKartonPacijenta(Request request) {
+        Response response = new Response();
+        response.setOperation(Operations.GET_PACIJENT);
+        try {
+            KartonPacijenta k = ServerController.getInstance().findKartonPacijenta(request);
+            System.out.println(k);
+            List<Uput> up = new ArrayList<>();
+            for(Uput u : up)
+            { System.out.println(u);}
+            response.setResponseType(ResponseType.SUCCESS);
+            response.setResponse(k);
+        } catch (Exception ex) {
+            response.setException(ex);
+            response.setResponseType(ResponseType.ERROR);
+            Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return response;
     }
 
 }

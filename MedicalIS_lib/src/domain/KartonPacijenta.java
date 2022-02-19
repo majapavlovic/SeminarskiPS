@@ -195,8 +195,8 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
     @Override
     public String toString() {
         return "jmbg= " + jmbg + ", lbo=" + lbo + ", ime='" + ime
-                + "', prezime='" + prezime + "', pol='" + pol.toString()
-                + "', datumrodjenja='" + datumRodjenja.toString()
+                + "', prezime='" + prezime + "', pol='" + ((pol==null)?"":pol.toString())
+                + "', datumrodjenja='" + ((datumRodjenja==null)?"":datumRodjenja.toString())
                 + "', adresa='" + adresa + "', kontakt_telefon='"
                 + kontaktTelefon + "', krvna_grupa='" + krvnaGrupa.toString()
                 + "', hronicne_dijagnoze'" + hronicneDijagnoze + "', lekar=" + lekar.getIme() + " " + lekar.getPrezime();

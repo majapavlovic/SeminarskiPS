@@ -139,6 +139,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
             signal = rs.next();
             if (signal == true) {
                 odo = odo.getNewRecord(rs);
+                System.out.println("Odo: " + odo);
             } else {
                 odo = null;
             }
@@ -182,6 +183,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         ResultSet rs = null;
         Statement st = null;
         String upit = "SELECT * FROM " + odo.getClassName() + " WHERE " + odo.getWhereCondition();
+        System.out.println("Upit: " + upit);
         boolean signal;
         try {
             st = conn.prepareStatement(upit);

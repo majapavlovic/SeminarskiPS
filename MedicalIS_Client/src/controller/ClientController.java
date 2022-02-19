@@ -89,9 +89,14 @@ public class ClientController {
     }
 
     public void showKartonPacijenta(Response response) {
-        KartonPacijenta k = (KartonPacijenta) response.getResponse();
-        System.out.println(k.getIme());
-        frmLekar.showKartonPacijenta(response);
+        if (response.getResponseType().equals(ResponseType.SUCCESS)) {
+            KartonPacijenta k = (KartonPacijenta) response.getResponse();
+            System.out.println(k.getIme());
+            frmLekar.showKartonPacijenta(response);
+        } else {
+            frmLekar.showMessage(response.getException().getMessage());
+        }
+
     }
 
     public void getRezultat(List<Analiza> a) throws Exception {
@@ -100,8 +105,12 @@ public class ClientController {
     }
 
     public void showRezultati(Response response) {
-        if(frmLekar!=null) frmLekar.showRezultati(response);
-        if(frmLaborant!=null) frmLaborant.setRezultati(response);
+        if (frmLekar != null) {
+            frmLekar.showRezultati(response);
+        }
+        if (frmLaborant != null) {
+            frmLaborant.setRezultati(response);
+        }
     }
 
     public void insertNoviKarton(KartonPacijenta k) throws Exception {

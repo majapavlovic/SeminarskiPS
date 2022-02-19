@@ -566,6 +566,11 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
             txtHronicneDijagnoze.setText(pacijent.getHronicneDijagnoze());
 
             uputi = pacijent.getUputi();
+            System.out.println("Stigne li kod do ovde uopste");
+            for(Uput u : uputi)
+            {
+                System.out.println(u);
+            }
 
             tblModelUputi.setUputi(uputi);
 
@@ -674,6 +679,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                 ClientController.getInstance().getKartonPacijenta(Long.valueOf(strJmbg), lekar.getUsername());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Neodgovarajuca vrednost JMBG-a!");
+                ex.printStackTrace();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Morate uneti kriterijum za pretragu!");
@@ -725,5 +731,9 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     private javax.swing.JTextField txtLekar;
     private javax.swing.JTextField txtPrezime;
     // End of variables declaration//GEN-END:variables
+
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
 
 }
