@@ -310,8 +310,8 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
     private javax.swing.JTextField txtSifraUputa;
     // End of variables declaration//GEN-END:variables
 
-    private void prepareForm(Long jmbg) {
-        txtJMBG.setText(jmbg.toString());
+    private void prepareForm(String jmbg) {
+        txtJMBG.setText(jmbg);
         Date date = new Date();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

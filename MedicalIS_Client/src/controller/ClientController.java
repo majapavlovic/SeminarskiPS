@@ -80,7 +80,7 @@ public class ClientController {
 
     }
 
-    public void getKartonPacijenta(Long jmbg, String lekar) throws Exception {
+    public void getKartonPacijenta(String jmbg, String lekar) throws Exception {
         Lekar l = new Lekar(lekar);
         KartonPacijenta kp = new KartonPacijenta(jmbg);
         kp.setLekar(l);
@@ -99,7 +99,7 @@ public class ClientController {
 
     }
 
-    public void getRezultat(List<Analiza> a) throws Exception {
+    public void getRezultat(List<Analiza> a) throws Exception {     //OVERRIDE-OVANO
         Request request = new Request(Operations.GET_REZULTATI, a);
         new Sender(clientThread.getSocket()).send(request);
     }
@@ -160,7 +160,7 @@ public class ClientController {
         new Sender(clientThread.getSocket()).send(request);
     }
 
-    public void getRezultati() throws Exception {
+    public void getRezultati() throws Exception {           
         Request request = new Request(Operations.GET_ALL_REZULTAT, null);
         new Sender(clientThread.getSocket()).send(request);
     }
@@ -244,6 +244,11 @@ public class ClientController {
 
     public void showAnalize(Response response) {
         frmLaborant.showAnalize(response);
+    }
+
+    public void getRezultatiAnaliza(List<Analiza> analize) throws Exception {        //NOVA
+        Request request = new Request(Operations.GET_REZULTATI, analize);
+        new Sender(clientThread.getSocket()).send(request);
     }
 
 }

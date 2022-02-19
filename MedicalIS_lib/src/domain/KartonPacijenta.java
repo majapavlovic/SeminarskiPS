@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class KartonPacijenta implements Serializable, GeneralDObject {
 
-    Long jmbg, lbo;
+    String jmbg, lbo;
     String ime;
     String prezime;
     String pol;
@@ -33,7 +33,11 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
     public KartonPacijenta() {
     }
 
-    public KartonPacijenta(Long jmbg, Long lbo, String ime, String prezime, String pol, Date datumRodjenja, String adresa, String kontaktTelefon, String krvnaGrupa, String hronicneDijagnoze, Lekar lekar) {
+    public KartonPacijenta(String jmbg) {
+        this.jmbg = jmbg;
+    }
+
+    public KartonPacijenta(String jmbg, String lbo, String ime, String prezime, String pol, Date datumRodjenja, String adresa, String kontaktTelefon, String krvnaGrupa, String hronicneDijagnoze, Lekar lekar) {
         this.jmbg = jmbg;
         this.lbo = lbo;
         this.ime = ime;
@@ -47,23 +51,19 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
         this.lekar = lekar;
     }
 
-    public KartonPacijenta(Long jmbg) {
-        this.jmbg = jmbg;
-    }
-
-    public Long getJmbg() {
+    public String getJmbg() {
         return jmbg;
     }
 
-    public void setJmbg(Long jmbg) {
+    public void setJmbg(String jmbg) {
         this.jmbg = jmbg;
     }
 
-    public Long getLbo() {
+    public String getLbo() {
         return lbo;
     }
 
-    public void setLbo(Long lbo) {
+    public void setLbo(String lbo) {
         this.lbo = lbo;
     }
 
@@ -150,14 +150,14 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
     @Override
     public String getAtrValue() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return jmbg.toString() + ", " + lbo.toString() + ", '" + ime + "', '" + prezime + "', '" + formatter.format(datumRodjenja) + "', '" + pol.toString()
+        return "'" + jmbg.toString() + "', '" + lbo.toString() + "', '" + ime + "', '" + prezime + "', '" + formatter.format(datumRodjenja) + "', '" + pol.toString()
                 + "', '" + adresa + "', '" + kontaktTelefon + "', '" + krvnaGrupa.toString() + "', '" + hronicneDijagnoze + "', '" + lekar.getUsername() + "'";
     }
 
     @Override
     public String setAtrValue() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return "jmbg= " + jmbg + ", lbo=" + lbo + ", ime='" + ime
+        return "jmbg= '" + jmbg + "', lbo='" + lbo + "', ime='" + ime
                 + "', prezime='" + prezime + "', pol='" + pol.toString()
                 + "', datumrodjenja='" + formatter.format(datumRodjenja)
                 + "', adresa='" + adresa + "', kontakt_telefon='"
@@ -173,7 +173,7 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition() {
-        return "jmbg = " + jmbg;
+        return "jmbg = '" + jmbg + "'";
     }
 
     @Override
@@ -184,7 +184,7 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
         return new KartonPacijenta(
-                rs.getLong("jmbg"), rs.getLong("lbo"), rs.getString("ime"),
+                rs.getString("jmbg"), rs.getString("lbo"), rs.getString("ime"),
                 rs.getString("prezime"), rs.getString("pol"),
                 rs.getDate("datumrodjenja"), rs.getString("adresa"),
                 rs.getString("kontakt_telefon"), rs.getString("krvna_grupa"),
@@ -194,9 +194,9 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
 
     @Override
     public String toString() {
-        return "jmbg= " + jmbg + ", lbo=" + lbo + ", ime='" + ime
-                + "', prezime='" + prezime + "', pol='" + ((pol==null)?"":pol.toString())
-                + "', datumrodjenja='" + ((datumRodjenja==null)?"":datumRodjenja.toString())
+        return "jmbg= '" + jmbg + "', lbo='" + lbo + "', ime='" + ime
+                + "', prezime='" + prezime + "', pol='" + ((pol == null) ? "" : pol.toString())
+                + "', datumrodjenja='" + ((datumRodjenja == null) ? "" : datumRodjenja.toString())
                 + "', adresa='" + adresa + "', kontakt_telefon='"
                 + kontaktTelefon + "', krvna_grupa='" + krvnaGrupa.toString()
                 + "', hronicne_dijagnoze'" + hronicneDijagnoze + "', lekar=" + lekar.getIme() + " " + lekar.getPrezime();
@@ -204,7 +204,7 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition1() {
-        return "jmbg = " + jmbg + " AND lekar='" + lekar.getUsername() + "'";
+        return "jmbg = '" + jmbg + "' AND lekar='" + lekar.getUsername() + "'";
     }
 
 }

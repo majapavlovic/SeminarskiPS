@@ -88,7 +88,7 @@ public class TableModelAnalize extends DefaultTableModel {
     public List<Rezultat> getRezultati() {
         return rezultati;
     }
-    
+
     public Analiza getAnaliza(int row) {
         return analize.get(row);
     }
@@ -120,12 +120,55 @@ public class TableModelAnalize extends DefaultTableModel {
         Analiza a = analize.get(row);
         Rezultat rezultat = new Rezultat();
         for (Rezultat rez : rezultati) {
-            if (rez!=null && rez.getSifra_rezultata().equals(a.getSifraAnalize())) {
+            if (rez != null && rez.getSifra_rezultata().equals(a.getSifraAnalize())) {
                 rezultat = rez;
                 break;
             }
         }
         return rezultat;
+    }
+
+    public String showAnalizaRezultat(int row) {
+        /*Analiza a = analize.get(row);
+        Rezultat rezultat = new Rezultat();
+        if (rezultati != null) {
+            for (Rezultat rez : rezultati) {
+                if (rez.getSifra_rezultata().equals(a.getSifraAnalize())) {
+                    rezultat = rez;
+                    break;
+                }
+            }
+        }
+        String rezultatIspis;
+        if (rezultat.getSifra_rezultata() != null) {
+            rezultatIspis = "    Sifra: " + rezultat.getSifra_rezultata() + "            Datum: " + rezultat.getDatumIzdavanja()
+                    + "\n\nRezultat:\n" + rezultat.getRezultat_analize();
+        } else {
+            rezultatIspis = "\n     Rezultat jos uvek nije spreman.";
+        }
+        return "\n\n         Analiza   -    Sifra analize:  "
+                + a.getSifraAnalize()
+                + "\n     Vrsta uzorka: " + a.getVrstaUzorka() + ",         Analiza: " + a.getVrstaAnalize()
+                + "\n-------------------------------------------------------------------\n"
+                + rezultatIspis;*/
+
+        Analiza a = analize.get(row);
+        Rezultat rezultat = new Rezultat();
+        String rezultatIspis = "";
+        try {
+            rezultat = rezultati.get(row);
+
+            rezultatIspis = "Sifra: " + rezultat.getSifra_rezultata() + "            Datum: " + rezultat.getDatumIzdavanja()
+                    + "\n\nRezultat:\n" + rezultat.getRezultat_analize();
+        } catch (Exception ex) {
+            rezultatIspis = "\n     Rezultat jos uvek nije spreman.";
+        }
+
+        return "\n\n         Analiza   -    Sifra analize:  "
+                + a.getSifraAnalize()
+                + "\n     Vrsta uzorka: " + a.getVrstaUzorka() + ",         Analiza: " + a.getVrstaAnalize()
+                + "\n-------------------------------------------------------------------\n"
+                + rezultatIspis;
     }
 
     public void setAnalizeRezultati(List<Analiza> analize, List<Rezultat> rezultati) {

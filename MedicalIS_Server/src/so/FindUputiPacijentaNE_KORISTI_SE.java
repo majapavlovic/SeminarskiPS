@@ -18,13 +18,13 @@ import java.util.List;
  *
  * @author Maja
  */
-public class FindUputiPacijenta extends AbstractSO {
+public class FindUputiPacijentaNE_KORISTI_SE extends AbstractSO {
 
     BrokerBazePodataka_impl bbp;
     Object result1;
     List<GeneralDObject> lista;
 
-    public FindUputiPacijenta() {
+    public FindUputiPacijentaNE_KORISTI_SE() {
         bbp = new BrokerBazePodataka_impl();
         bbp.makeConnection();
     }
@@ -49,7 +49,7 @@ public class FindUputiPacijenta extends AbstractSO {
                 u = (Uput) odo;
                 u.setLekar((Lekar) bbp.findRecord1(new Lekar(u.getLekar().getUsername())));
 
-                AbstractSO findAnalize = new FindAnalizeUputa();
+                AbstractSO findAnalize = new FindAnalizeUputaNE_KORISTI_SE();
                 findAnalize.execute(u);
                 //System.out.println("Poziv find analize: " + findAnalize.getResult());
                 //u.setAnalize((List<Analiza>) findAnalize.getResult());

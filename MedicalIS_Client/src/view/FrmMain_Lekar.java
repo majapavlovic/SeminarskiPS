@@ -104,7 +104,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAnalize = new javax.swing.JTable();
-        btnOsvezi = new javax.swing.JButton();
+        btnOcisti = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -212,6 +212,9 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         cbKrvnaGrupa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel4.setText("Izabrani lekar");
+
+        txtLekar.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtLekar.setEnabled(false);
 
         jLabel3.setText("Analize i rezultati");
 
@@ -375,10 +378,10 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnOsvezi.setText("Osveži");
-        btnOsvezi.addActionListener(new java.awt.event.ActionListener() {
+        btnOcisti.setText("Ocisti");
+        btnOcisti.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOsveziActionPerformed(evt);
+                btnOcistiActionPerformed(evt);
             }
         });
 
@@ -405,7 +408,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                                 .addGap(88, 88, 88))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(btnOsvezi, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnOcisti, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -418,7 +421,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                     .addComponent(txtJMBGnadji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(btnNadji, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOsvezi, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnOcisti, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(31, 31, 31))
@@ -463,12 +466,12 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     private void tblUputiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUputiMouseClicked
 
         int row = tblUputi.rowAtPoint(evt.getPoint());
-        
+
         Uput u = tblModelUputi.getUput(row);
         analize = u.getAnalize();
-        
+
         try {
-            ClientController.getInstance().getRezultat(analize);
+            ClientController.getInstance().getRezultatiAnaliza(analize);
         } catch (Exception ex) {
             Logger.getLogger(FrmMain_Lekar.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -497,37 +500,24 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         try {
             validateForm();
             KartonPacijenta k = getPacijentData();
+            txtLekar.getText().equals(lekar.getIme() + "" + lekar.getPrezime());
             ClientController.getInstance().updatePacijent(k);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnOsveziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsveziActionPerformed
+    private void btnOcistiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOcistiActionPerformed
 
-        if (rezultati != null) {
-            rezultati.removeAll(rezultati);
-        }
-        if (uputi != null) {
-            uputi.removeAll(uputi);
-        }
+        ocisti();
 
-        tblModelUputi.setUputi(uputi);
-
-        txtJMBG.setText("");
-        txtHronicneDijagnoze.setText("");
-        txtAdresa.setText("");
-        txtLBO.setText("");
-        txtIme.setText("");
-        txtPrezime.setText("");
-        cbKrvnaGrupa.setSelectedItem("A+");
-        txtKontakt.setText("");
-        cbPol.setSelectedItem("Muski");
-        txtLekar.setText("");
-    }//GEN-LAST:event_btnOsveziActionPerformed
+    }//GEN-LAST:event_btnOcistiActionPerformed
 
     private void tblAnalizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAnalizeMouseClicked
-      //   tblModelAnalize.get
+        int row = tblAnalize.rowAtPoint(evt.getPoint());
+
+        JOptionPane.showMessageDialog(this, tblModelAnalize.showAnalizaRezultat(row));
+
     }//GEN-LAST:event_tblAnalizeMouseClicked
 
     private void prepareForm() {
@@ -553,9 +543,9 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             KartonPacijenta pacijent = (KartonPacijenta) response.getResponse();
             trenutni_pacijent = pacijent;
-            txtJMBG.setText(pacijent.getJmbg().toString());
-            if (pacijent.getLbo() != 0l) {
-                txtLBO.setText(pacijent.getLbo().toString());
+            txtJMBG.setText(pacijent.getJmbg());
+            if (pacijent.getLbo() != null) {
+                txtLBO.setText(pacijent.getLbo());
             }
             txtAdresa.setText(pacijent.getAdresa());
             txtIme.setText(pacijent.getIme());
@@ -567,8 +557,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
             uputi = pacijent.getUputi();
             System.out.println("Stigne li kod do ovde uopste");
-            for(Uput u : uputi)
-            {
+            for (Uput u : uputi) {
                 System.out.println(u);
             }
 
@@ -590,15 +579,13 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     public void showRezultati(Response response) {
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
-            rezultati =  (List<Rezultat>) response.getResponse();
-          
+            rezultati = (List<Rezultat>) response.getResponse();
 
             System.out.println("Rezultati: ");
-            for(Rezultat r : rezultati) {
+            for (Rezultat r : rezultati) {
                 System.out.println(r);
             }
-            
-            
+
             tblModelAnalize.setAnalizeRezultati(analize, rezultati);
         }
 
@@ -606,7 +593,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     private void validateForm() throws Exception {
         String error = "";
-        if (txtJMBG.getText().isEmpty()) {
+        if (txtJMBG.getText().trim().isEmpty()) {
             error += "Niste upisali JMBG!\n";
         } else {
             try {
@@ -629,12 +616,9 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     private KartonPacijenta getPacijentData() throws Exception {
         KartonPacijenta k = new KartonPacijenta();
-        k.setJmbg(Long.valueOf(txtJMBG.getText()));
-        if (!txtLBO.getText().equals("")) {
-            k.setLbo(Long.valueOf(txtLBO.getText()));
-        } else {
-            k.setLbo(0l);
-        }
+        k.setJmbg(txtJMBG.getText().trim());
+
+        k.setLbo(txtLBO.getText().trim());
         k.setAdresa(txtAdresa.getText());
         k.setIme(txtIme.getText());
         k.setPrezime(txtPrezime.getText());
@@ -671,12 +655,15 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     }
 
     private void nadji() {
+
+        
+        ocisti();
         String strJmbg = txtJMBGnadji.getText();
 
         if (!strJmbg.isEmpty()) {
             try {
 
-                ClientController.getInstance().getKartonPacijenta(Long.valueOf(strJmbg), lekar.getUsername());
+                ClientController.getInstance().getKartonPacijenta(strJmbg, lekar.getUsername());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Neodgovarajuca vrednost JMBG-a!");
                 ex.printStackTrace();
@@ -691,7 +678,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     private javax.swing.JButton btnNadji;
     private javax.swing.JButton btnNoviKarton;
     private javax.swing.JButton btnNoviUput;
-    private javax.swing.JButton btnOsvezi;
+    private javax.swing.JButton btnOcisti;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbKrvnaGrupa;
     private javax.swing.JComboBox<String> cbPol;
@@ -734,6 +721,32 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void ocisti() {
+        if (rezultati != null) {
+            rezultati.removeAll(rezultati);
+        }
+        if (uputi != null) {
+            uputi.removeAll(uputi);
+        }
+        if (analize != null) {
+            analize.removeAll(analize);
+        }
+
+        tblModelUputi.setUputi(uputi);
+        tblModelAnalize.setAnalizeRezultati(analize, rezultati);
+
+        txtJMBG.setText("");
+        txtHronicneDijagnoze.setText("");
+        txtAdresa.setText("");
+        txtLBO.setText("");
+        txtIme.setText("");
+        txtPrezime.setText("");
+        cbKrvnaGrupa.setSelectedItem("A+");
+        txtKontakt.setText("");
+        cbPol.setSelectedItem("Muski");
+        txtLekar.setText("");
     }
 
 }

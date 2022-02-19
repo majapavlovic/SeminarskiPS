@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import so.AbstractSO;
 import so.AddKartonPacijenta;
 import so.FindKartonPacijenta;
+import so.FindRezultatAnalize;
 import so.InsertUput;
 import so.UpdateKartonPacijenta;
 import threads.ClientHandle;
@@ -131,12 +132,22 @@ public class ServerController {
         return response;
     }
 
-    public List<Rezultat> getListaRezultata(Request request) {
-        List<Analiza> analize = (List<Analiza>) request.getArgument();
+    public List<Rezultat> getListaRezultata(Request request) throws Exception {
+       /* List<Analiza> analize = (List<Analiza>) request.getArgument();
         List<Rezultat> rezultati = new ArrayList<>();
         for (Analiza a : analize) {
             System.out.println("Analiza: " + a);
             rezultati.add(getRezultat(a));
+        }
+        return rezultati;*/
+       
+        List<Analiza> analize = (List<Analiza>) request.getArgument();
+        List<Rezultat> rezultati = new ArrayList<>();
+        AbstractSO findRez = new FindRezultatAnalize();
+        for (Analiza a : analize) {
+            findRez.execute(a);
+            Rezultat r = (Rezultat) findRez.getResult();
+            rezultati.add(r);
         }
         return rezultati;
     }

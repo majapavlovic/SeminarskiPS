@@ -109,15 +109,15 @@ public class Uput implements Serializable, GeneralDObject {
     public String getAtrValue() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return sifraUputa + ", '" + formatter.format(datumUputa) + "', '"
-                + uputnaDijagnoza + "', '" + lekar.getUsername() + "', "
-                + pacijent.getJmbg();
+                + uputnaDijagnoza + "', '" + lekar.getUsername() + "', '"
+                + pacijent.getJmbg() + "'";
     }
 
     @Override
     public String setAtrValue() {
         return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + datumUputa + "', uputna_dijagnoza='"
-                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
-                + pacijent.getJmbg();
+                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg='"
+                + pacijent.getJmbg() + "'";
     }
 
     @Override
@@ -127,7 +127,7 @@ public class Uput implements Serializable, GeneralDObject {
 
     @Override
     public String getWhereCondition() {
-        return "jmbg = " + pacijent.getJmbg().toString() + " ORDER BY sifra_uputa DESC";
+        return "jmbg = '" + pacijent.getJmbg().toString() + "' ORDER BY sifra_uputa DESC";
     }
 
     @Override
@@ -139,15 +139,15 @@ public class Uput implements Serializable, GeneralDObject {
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
         return new Uput(rs.getLong("sifra_uputa"), rs.getDate("datum_uputa"), 
                 rs.getString("uputna_dijagnoza"), new Lekar(rs.getString("sifra_lekara")), 
-                new KartonPacijenta(rs.getLong("jmbg")));
+                new KartonPacijenta(rs.getString("jmbg")));
     }
 
     @Override
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return "sifra_uputa=" + sifraUputa + ", datum_uputa='" + formatter.format(datumUputa) + "', uputna_dijagnoza='"
-                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg="
-                + pacijent.getJmbg().toString();
+                + uputnaDijagnoza + "', sifra_lekara='" + lekar.getUsername() + "', jmbg='"
+                + pacijent.getJmbg() + "'";
     }
 
     @Override

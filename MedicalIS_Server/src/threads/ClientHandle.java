@@ -68,13 +68,13 @@ public class ClientHandle extends Thread {
                 response = findKartonPacijenta(request);
                 //response = ServerController.getInstance().findKartonPacijenta(request);
                 break;
-            case Operations.GET_REZULTATI:
+            case Operations.GET_REZULTATI:  // NOVO, VRACA REZULTATE ANALIZA JEDNOG UPUTA
                 response = sendRezultati(request);
                 break;
             case Operations.INSERT_PACIJENT:
                 response = ServerController.getInstance().insertKartonPacijetna(request);
                 break;
-            case Operations.INSERT_UPUT:
+            case Operations.INSERT_UPUT: //NOVO
                 response = ServerController.getInstance().insertUput(request);
                 break;
             case Operations.GET_ALL_UPUT:

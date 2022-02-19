@@ -15,13 +15,13 @@ import java.util.List;
  *
  * @author Maja
  */
-public class FindAnalizeUputa extends AbstractSO {
+public class FindAnalizeUputaNE_KORISTI_SE extends AbstractSO {
 
     BrokerBazePodataka_impl bbp;
     Object result;
     List<GeneralDObject> lista;
 
-    public FindAnalizeUputa() {
+    public FindAnalizeUputaNE_KORISTI_SE() {
         bbp = new BrokerBazePodataka_impl();
         bbp.makeConnection();
 

@@ -100,7 +100,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnOsvezi" min="-2" pref="77" max="-2" attributes="0"/>
+                                  <Component id="btnOcisti" min="-2" pref="77" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -119,7 +119,7 @@
                       <Component id="txtJMBGnadji" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnNadji" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="btnOsvezi" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="btnOcisti" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
@@ -545,6 +545,12 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLekar">
+              <Properties>
+                <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -577,12 +583,12 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnOsvezi">
+        <Component class="javax.swing.JButton" name="btnOcisti">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Osve&#x17e;i"/>
+            <Property name="text" type="java.lang.String" value="Ocisti"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOsveziActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOcistiActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
