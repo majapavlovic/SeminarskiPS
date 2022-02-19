@@ -41,6 +41,7 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
      */
     public FrmMain_Laborant(Laborant laborant) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.laborant = laborant;
         ClientController.getInstance().setFrmLaborant(this);
         prepareForm();
@@ -443,7 +444,7 @@ public class FrmMain_Laborant extends javax.swing.JFrame {
 
         txtLekar.setText(uput.getLekar().getIme() + " " + uput.getLekar().getPrezime());
 
-        if(rezultat!=null && rezultat.getLaborant()!=null){
+        if (rezultat != null && rezultat.getLaborant() != null) {
             txtLaborant.setText(rezultat.getLaborant().getIme() + " " + rezultat.getLaborant().getPrezime());
             txtDatuimRezultata.setText(rezultat.getDatumIzdavanja().toString());
         }

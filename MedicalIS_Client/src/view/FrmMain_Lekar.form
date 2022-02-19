@@ -75,6 +75,7 @@
             </TitledBorder>
           </Border>
         </Property>
+        <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
       </Properties>
 
       <Layout>

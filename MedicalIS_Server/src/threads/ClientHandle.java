@@ -77,8 +77,8 @@ public class ClientHandle extends Thread {
             case Operations.INSERT_UPUT: //NOVO
                 response = ServerController.getInstance().insertUput(request);
                 break;
-            case Operations.GET_ALL_UPUT:
-                response = ServerController.getInstance().sendAllUputi();
+            case Operations.GET_ALL_UPUT:                                       //NOVO U IZRADI
+                response = sendAllUputi();
                 break;
             case Operations.GET_ALL_REZULTAT:
                 response = ServerController.getInstance().sendAllRezultati();
@@ -86,8 +86,9 @@ public class ClientHandle extends Thread {
             case Operations.LOGIN_LAB:
                 response = loginLab(request);
                 break;
-            case Operations.INSERT_REZULTAT:
-                response = ServerController.getInstance().insertRezultat(request);
+            case Operations.INSERT_REZULTAT:    //NOVO
+                //response = ServerController.getInstance().insertRezultat(request);
+                response = insertRezultat(request);
                 break;
             case Operations.UPDATE_PACIJENT:
                 response = ServerController.getInstance().updatePacijent(request);
@@ -107,14 +108,16 @@ public class ClientHandle extends Thread {
         Response response = new Response();
         response.setOperation(Operations.LOGIN_LEKAR);
         Lekar reqL = (Lekar) request.getArgument();
-        Lekar l = ServerController.getInstance().loginLekar(reqL);
-        if (l != null) {
+        try {
+            Lekar l = ServerController.getInstance().loginLekar(reqL);
+
             response.setResponse(l);
             response.setResponseType(ResponseType.SUCCESS);
             lekar = l;
             ServerController.getInstance().showLoggedUsers(l);
-        } else {
+        } catch (Exception ex) {
             response.setResponseType(ResponseType.ERROR);
+            response.setException(ex);
         }
 
         return response;
@@ -138,13 +141,15 @@ public class ClientHandle extends Thread {
         Response response = new Response();
         response.setOperation(Operations.GET_REZULTATI);
 
-        List<Rezultat> r = ServerController.getInstance().getListaRezultata(request);
-        if (r != null) {
+        try {
+            List<Rezultat> r = ServerController.getInstance().getListaRezultata(request);
             response.setResponse(r);
             response.setResponseType(ResponseType.SUCCESS);
-        } else {
+        } catch (Exception ex) {
+
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Rezultat nije pronadjen!"));
+            ex.printStackTrace();
         }
         return response;
     }
@@ -153,16 +158,18 @@ public class ClientHandle extends Thread {
         Response response = new Response();
         response.setOperation(Operations.LOGIN_LAB);
         Laborant lab = (Laborant) request.getArgument();
-        Laborant l = ServerController.getInstance().loginLaborant(lab);
-        if (l != null) {
+        try {
+            Laborant l = ServerController.getInstance().loginLaborant(lab);
             response.setResponse(l);
             response.setResponseType(ResponseType.SUCCESS);
             laborant = l;
             ServerController.getInstance().showLoggedUsers(l);
-        } else {
-            response.setResponseType(ResponseType.ERROR);
-        }
+        } catch (Exception ex) {
 
+            ex.printStackTrace();
+            response.setResponseType(ResponseType.ERROR);
+            response.setException(ex);
+        }
         return response;
     }
 
@@ -181,14 +188,47 @@ public class ClientHandle extends Thread {
             KartonPacijenta k = ServerController.getInstance().findKartonPacijenta(request);
             System.out.println(k);
             List<Uput> up = new ArrayList<>();
-            for(Uput u : up)
-            { System.out.println(u);}
+            for (Uput u : up) {
+                System.out.println(u);
+            }
             response.setResponseType(ResponseType.SUCCESS);
             response.setResponse(k);
         } catch (Exception ex) {
             response.setException(ex);
             response.setResponseType(ResponseType.ERROR);
             Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return response;
+    }
+
+    private Response sendAllUputi() {
+        Response response = new Response();
+        response.setOperation(Operations.GET_ALL_UPUT);
+        try {
+            List<Uput> uputi = (List<Uput>) ServerController.getInstance().sendAllUputi();
+
+            response.setResponse(uputi);
+            response.setResponseType(ResponseType.SUCCESS);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            response.setResponseType(ResponseType.ERROR);
+            response.setException(new Exception("Nema uputa"));
+        }
+        return response; 
+    }
+
+    private Response insertRezultat(Request request) {
+        Rezultat rez = (Rezultat) request.getArgument();
+        Response response = new Response();
+        response.setOperation(Operations.INSERT_REZULTAT);
+        try {
+            ServerController.getInstance().insertRezultat(rez);
+            
+            response.setResponseType(ResponseType.SUCCESS);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
+            response.setResponseType(ResponseType.ERROR);
+            response.setException(ex);
         }
         return response;
     }

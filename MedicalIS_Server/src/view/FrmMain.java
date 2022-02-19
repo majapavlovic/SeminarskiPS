@@ -16,14 +16,16 @@ import javax.swing.table.TableModel;
  * @author Maja
  */
 public class FrmMain extends javax.swing.JFrame {
-
+    
     TableModelKorisnici tblModelKor;
     List<GeneralDObject> lista = new ArrayList<>();
+
     /**
      * Creates new form FrmMain
      */
     public FrmMain() {
         initComponents();
+        this.setLocationRelativeTo(null);
         btnStart.setEnabled(true);
         btnStop.setEnabled(false);
         tblModelKor = new TableModelKorisnici();
@@ -45,6 +47,10 @@ public class FrmMain extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKorisnici = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuConfig = new javax.swing.JMenu();
+        jmiDbConfig = new javax.swing.JMenuItem();
+        jmiServerConfig = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,32 +86,54 @@ public class FrmMain extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Ulogovani korisnici");
 
+        menuConfig.setText("Configuration");
+
+        jmiDbConfig.setText("Database configuration");
+        jmiDbConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiDbConfigActionPerformed(evt);
+            }
+        });
+        menuConfig.add(jmiDbConfig);
+
+        jmiServerConfig.setText("Server configuration");
+        jmiServerConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiServerConfigActionPerformed(evt);
+            }
+        });
+        menuConfig.add(jmiServerConfig);
+
+        jMenuBar1.add(menuConfig);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(32, 32, 32))
             .addGroup(layout.createSequentialGroup()
                 .addGap(176, 176, 176)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,7 +144,7 @@ public class FrmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-
+        
         ServerController.getInstance().startServer();
         btnStart.setEnabled(false);
         btnStop.setEnabled(true);
@@ -127,17 +155,30 @@ public class FrmMain extends javax.swing.JFrame {
         btnStart.setEnabled(true);
         btnStop.setEnabled(false);    }//GEN-LAST:event_btnStopActionPerformed
 
+    private void jmiDbConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDbConfigActionPerformed
+        new FrmDbConfig(this, true).setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_jmiDbConfigActionPerformed
+
+    private void jmiServerConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiServerConfigActionPerformed
+         new FrmServerConfig_(this, true).setVisible(true);
+    }//GEN-LAST:event_jmiServerConfigActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStop;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem jmiDbConfig;
+    private javax.swing.JMenuItem jmiServerConfig;
+    private javax.swing.JMenu menuConfig;
     private javax.swing.JTable tblKorisnici;
     // End of variables declaration//GEN-END:variables
 
     public void showKorisnici(GeneralDObject odo) {
         lista.add(odo);
-        tblModelKor.setKorisnici(lista);
+        // tblModelKor.setKorisnici(lista);
+        tblModelKor.addKorisnik(odo);
     }
 }

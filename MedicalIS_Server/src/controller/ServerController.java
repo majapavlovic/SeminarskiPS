@@ -25,9 +25,13 @@ import java.util.List;
 import java.util.logging.Level;
 import so.AbstractSO;
 import so.AddKartonPacijenta;
+import so.FindAllUputi;
 import so.FindKartonPacijenta;
 import so.FindRezultatAnalize;
+import so.InsertRezultat;
 import so.InsertUput;
+import so.LoginLaborant;
+import so.LoginLekar;
 import so.UpdateKartonPacijenta;
 import threads.ClientHandle;
 import threads.ServerThread;
@@ -75,9 +79,13 @@ public class ServerController {
         }
     }
 
-    public Lekar loginLekar(Lekar reqL) {
-        bbp.makeConnection();
-        return (Lekar) bbp.findRecord(reqL);
+    public Lekar loginLekar(Lekar reqL) throws Exception {
+        //bbp.makeConnection();
+        //return (Lekar) bbp.findRecord(reqL);
+        
+        AbstractSO loginLekar = new LoginLekar();
+        loginLekar.execute(reqL);
+        return (Lekar) loginLekar.getResult();
     }
 
     public KartonPacijenta sendKartonPacijenta(Request request, Lekar lekar) {
@@ -249,8 +257,9 @@ public class ServerController {
         return b;
     }
 
-    public Response sendAllUputi() {
-        Response response = new Response();
+    //public Response sendAllUputi() throws Exception {
+    public List<Uput> sendAllUputi() throws Exception {
+      /*  Response response = new Response();
         response.setOperation(Operations.GET_ALL_UPUT);
         Uput u = new Uput();
         List<GeneralDObject> odoUputi = bbp.findAllRecords_NoCondition(u);
@@ -268,7 +277,10 @@ public class ServerController {
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Nema uputa"));
         }
-        return response;
+        return response;*/  
+        AbstractSO findUputi = new FindAllUputi();
+        findUputi.execute(new Uput());
+        return (List<Uput>) findUputi.getResult1();
     }
 
     public Response sendAllRezultati() {
@@ -292,13 +304,18 @@ public class ServerController {
         return response;
     }
 
-    public Laborant loginLaborant(Laborant lab) {
-        bbp.makeConnection();
-        return (Laborant) bbp.findRecord(lab);
+    public Laborant loginLaborant(Laborant lab) throws Exception {
+        //bbp.makeConnection();
+        //return (Laborant) bbp.findRecord(lab);
+        
+        AbstractSO loginLab = new LoginLaborant();
+        loginLab.execute(lab);
+        return (Laborant) loginLab.getResult();
+       
     }
 
-    public Response insertRezultat(Request request) {
-        Response response = new Response();
+    public void insertRezultat(Rezultat rez) throws Exception {
+       /* Response response = new Response();
         response.setOperation(Operations.INSERT_REZULTAT);
 
         Rezultat rez = (Rezultat) request.getArgument();
@@ -314,7 +331,10 @@ public class ServerController {
             response.setException(new Exception("Neuspesan unos rezultata"));
             bbp.rollbackTransation();
         }
-        return response;
+        return response;*/
+       AbstractSO insertRez = new InsertRezultat();
+       insertRez.execute(rez);
+       
 
     }
 

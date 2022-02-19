@@ -28,6 +28,7 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+        this.setLocationRelativeTo(null);
         ClientController.getInstance().setFrmLogin(this);
     }
 
@@ -48,6 +49,7 @@ public class FrmLogin extends javax.swing.JFrame {
         btnLaborantLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Korisnicko ime:");
 

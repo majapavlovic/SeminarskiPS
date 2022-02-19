@@ -10,6 +10,7 @@ import domain.Lekar;
 import domain.Rezultat;
 import domain.Uput;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.SpringLayout;
@@ -22,7 +23,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelKorisnici extends AbstractTableModel {
 
     List<GeneralDObject> korisnici = new ArrayList<>();
-    String[] kolone = {"Korisnicko ime", "Ime i prezime", "Tip korisnika"};
+    String[] kolone = {"Korisnicko ime", "Ime i prezime", "Tip korisnika", "Vreme prijave"};
 
     @Override
     public int getRowCount() {
@@ -47,6 +48,8 @@ public class TableModelKorisnici extends AbstractTableModel {
                     return l.getIme() + " " + l.getPrezime();
                 case 2:
                     return l.getClassName();
+                case 3:
+                    return new Date().toString();
                 default:
                     return "N/A";
             }
@@ -74,6 +77,10 @@ public class TableModelKorisnici extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         return kolone[column];
+    }
+    public void addKorisnik(GeneralDObject korisnik) {
+        korisnici.add(korisnik);
+        fireTableDataChanged();
     }
     
 }

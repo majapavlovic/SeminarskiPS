@@ -1,17 +1,59 @@
 package dbbroker;
 
+import constants.MyServerConstants;
 import java.sql.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import dbbroker.BrokerBazePodataka;
 import domain.GeneralDObject;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class BrokerBazePodataka_impl extends BrokerBazePodataka {
 
-    Connection conn = null;
+   Connection conn = null;
+   String url="";
+   String username="";
+   String password="";
+     
+   @Override
+    public boolean makeConnection() 
+    {   readConfigProperties();
+        try {
+             //Class.forName(driver);
+             conn = DriverManager.getConnection(url,username,password);
+             conn.setAutoCommit(false); // Ako se ovo ne uradi nece moci da se radi roolback.
+            } catch (SQLException ex) // | ClassNotFoundException ex) 
+            {
+            Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+  
+    
+    void readConfigProperties()
+    { Properties prop = new Properties();
+      InputStream input = null;
+      try { input = new FileInputStream("config/config.properties");
+  	    prop.load(input);
+            url = prop.getProperty(MyServerConstants.DB_CONFIG_URL);
+            username = prop.getProperty(MyServerConstants.DB_CONFIG_USERNAME);
+            password = prop.getProperty(MyServerConstants.DB_CONFIG_PASSWORD);
+	  } catch (IOException ex){} 
+            finally 
+              { if (input != null) 
+                 {  try { input.close();} catch (IOException e) {}
+	         }
+	      }
+    }
+    
+   /* Connection conn = null;
 
     @Override
     public boolean makeConnection() {
@@ -30,7 +72,7 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
         }
         return true;
     }
-
+*/
     @Override
     public boolean insertRecord(GeneralDObject odo) {
         String upit = "INSERT INTO " + odo.getClassName() + " VALUES (" + odo.getAtrValue() + ")";

@@ -7,6 +7,7 @@ package so;
 import dbbroker.BrokerBazePodataka_impl;
 import domain.Analiza;
 import domain.GeneralDObject;
+import domain.Laborant;
 import domain.Rezultat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,16 @@ public class FindRezultatAnalize extends AbstractSO {
         Rezultat r = new Rezultat();
         r.setAnaliza(a);
         r = (Rezultat) bbp.findRecord(r);
-        
+
+        if (r != null) {
+            Laborant l = r.getLaborant();
+
+            AbstractSO findLab = new FindLaborant();
+            findLab.execute(l);
+
+            r.setLaborant((Laborant) findLab.getResult());
+        }
+
         result = r;
     }
 

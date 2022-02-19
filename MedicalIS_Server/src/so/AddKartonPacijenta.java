@@ -30,7 +30,7 @@ public class AddKartonPacijenta extends AbstractSO {
             throw new Exception("Niste uneli odgovarajuci parametar");
         }
         KartonPacijenta k = (KartonPacijenta) param;
-        if(k.getJmbg()==null || k.getLbo()==null ||
+        if(k.getJmbg().isEmpty() || k.getLbo().isEmpty() ||
                 k.getIme().isEmpty() || k.getPrezime().isEmpty() ||
                 k.getDatumRodjenja()==null || k.getPol().isEmpty()
                 || k.getKrvnaGrupa().isEmpty() || k.getLekar()==null) {

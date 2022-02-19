@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,6 +47,8 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
      */
     public FrmMain_Lekar(Lekar lekar) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.lekar = lekar;
         prepareForm();
         ClientController.getInstance().setFrmLekar(this);
@@ -123,6 +126,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MedicalIS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 1, 14), new java.awt.Color(51, 153, 255))); // NOI18N
+        jPanel2.setVerifyInputWhenFocusTarget(false);
 
         lblTrenutniLekar.setText("Ime lekara");
 
@@ -500,7 +504,6 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         try {
             validateForm();
             KartonPacijenta k = getPacijentData();
-            txtLekar.getText().equals(lekar.getIme() + "" + lekar.getPrezime());
             ClientController.getInstance().updatePacijent(k);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
@@ -656,7 +659,6 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     private void nadji() {
 
-        
         ocisti();
         String strJmbg = txtJMBGnadji.getText();
 

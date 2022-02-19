@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/view/FrmLogin.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/view/FrmMain_Lekar.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/view/FrmMain_Laborant.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/main/Client.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/controller/ClientController.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/view/FrmKreiranjeUputa.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/thread/ClientThread.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Client/src/component/TableModelAnalize.java</file>
         </group>
     </open-files>
 </project-private>
