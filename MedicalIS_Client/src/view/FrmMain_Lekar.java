@@ -76,6 +76,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         btnNadji = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnOcisti = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         txtJMBG = new javax.swing.JTextField();
@@ -160,14 +161,17 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
             }
         });
 
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTrenutniLekar)
-                .addGap(198, 198, 198))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(131, 131, 131)
                 .addComponent(jLabel1)
@@ -180,12 +184,20 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(btnOcisti, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(476, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLogout)
+                    .addComponent(lblTrenutniLekar))
+                .addGap(197, 197, 197))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(lblTrenutniLekar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLogout)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtJMBGnadji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -582,6 +594,12 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblAnalizeMouseClicked
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        this.dispose();
+        new FrmLogin().setVisible(true);
+        ClientController.getInstance().logoutLekar(lekar);
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     private void prepareForm() {
         List<String> pol = new ArrayList<>();
         pol.add("Muski");
@@ -714,7 +732,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
     }
 
     public void refresh() {
-        // nadji();
+         nadji();
     }
 
     private void nadji() {
@@ -737,6 +755,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNadji;
     private javax.swing.JButton btnNoviKarton;
     private javax.swing.JButton btnNoviUput;
@@ -812,6 +831,7 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         txtKontakt.setText("");
         cbPol.setSelectedItem("Muski");
         txtLekar.setText("");
+        txtJMBGnadji.setText("");
     }
 
 }

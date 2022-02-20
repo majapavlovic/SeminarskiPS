@@ -10,6 +10,8 @@ import communication.ResponseType;
 import communication.Sender;
 import constants.MyServerConstants;
 import controller.ServerController;
+import domain.Laborant;
+import domain.Lekar;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,8 +73,6 @@ public class ServerThread extends Thread {
             }
         }
 
-    
-
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
@@ -110,6 +110,31 @@ public class ServerThread extends Thread {
                 } catch (Exception ex) {
                     Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        }
+    }
+    public void logoutLekar(Lekar lekar) {
+         for (ClientHandle cl : clients) {
+            if (cl.getLekar()!=null && cl.getLekar().getUsername().equals(lekar.getUsername())) {
+                try {
+                    cl.getSocket().close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            }
+        }
+        
+    }
+    public void logoutLaborant(Laborant laborant) {
+        for (ClientHandle cl : clients) {
+            if (cl.getLaborant()!=null && cl.getLaborant().getUsername().equals(laborant.getUsername())) {
+                try {
+                    cl.getSocket().close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
             }
         }
     }

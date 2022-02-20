@@ -97,6 +97,9 @@ public class ClientThread extends Thread {
                 break;
             case Operations.GET_ALL_ANALIZA:
                 ClientController.getInstance().showAnalize(response);
+            case Operations.LOGOUT_LEKAR:
+            case Operations.LOGOUT_LAB:
+           //     socket.close();
 
         }
     }

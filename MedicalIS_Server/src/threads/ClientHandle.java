@@ -99,6 +99,12 @@ public class ClientHandle extends Thread {
             case Operations.GET_ALL_ANALIZA:
                 response = ServerController.getInstance().getAllAnalize();
                 break;
+            case Operations.LOGOUT_LEKAR:
+                ServerController.getInstance().logoutLekar(request);
+                break;
+            case Operations.LOGOUT_LAB:
+                ServerController.getInstance().logoutLab(request);
+                break;
             default:
         }
         return response;
@@ -209,12 +215,12 @@ public class ClientHandle extends Thread {
 
             response.setResponse(uputi);
             response.setResponseType(ResponseType.SUCCESS);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             response.setResponseType(ResponseType.ERROR);
             response.setException(new Exception("Nema uputa"));
         }
-        return response; 
+        return response;
     }
 
     private Response insertRezultat(Request request) {
@@ -223,7 +229,7 @@ public class ClientHandle extends Thread {
         response.setOperation(Operations.INSERT_REZULTAT);
         try {
             ServerController.getInstance().insertRezultat(rez);
-            
+
             response.setResponseType(ResponseType.SUCCESS);
         } catch (Exception ex) {
             Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);

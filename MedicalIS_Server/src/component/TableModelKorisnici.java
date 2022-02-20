@@ -53,8 +53,7 @@ public class TableModelKorisnici extends AbstractTableModel {
                 default:
                     return "N/A";
             }
-        }
-        else {
+        } else if (o.getClassName().equals("Laborant")) {
             Laborant lb = (Laborant) o;
             switch (columnIndex) {
                 case 0:
@@ -63,10 +62,13 @@ public class TableModelKorisnici extends AbstractTableModel {
                     return lb.getIme() + " " + lb.getPrezime();
                 case 2:
                     return lb.getClassName();
+                case 3:
+                    return new Date().toString();
                 default:
                     return "N/A";
             }
         }
+        return "";
     }
 
     public void setKorisnici(List<GeneralDObject> korisnici) {
@@ -78,9 +80,35 @@ public class TableModelKorisnici extends AbstractTableModel {
     public String getColumnName(int column) {
         return kolone[column];
     }
+
     public void addKorisnik(GeneralDObject korisnik) {
         korisnici.add(korisnik);
         fireTableDataChanged();
     }
-    
+
+    public void removeLekar(Lekar lekar) {
+        for (GeneralDObject gdo : korisnici) {
+            if (gdo instanceof Lekar) {
+                Lekar l = (Lekar) gdo;
+                if (lekar.getUsername().equals(l.getUsername())) {
+                    korisnici.remove(l);
+                    fireTableDataChanged();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void removeLaborant(Laborant lab) {
+        for (GeneralDObject gdo : korisnici) {
+            if (gdo instanceof Laborant) {
+                Laborant l = (Laborant) gdo;
+                if (lab.getUsername().equals(l.getUsername())) {
+                    korisnici.remove(l);
+                    fireTableDataChanged();
+                    break;
+                }
+            }
+        }
+    }
 }

@@ -82,7 +82,7 @@ public class ServerController {
     public Lekar loginLekar(Lekar reqL) throws Exception {
         //bbp.makeConnection();
         //return (Lekar) bbp.findRecord(reqL);
-        
+
         AbstractSO loginLekar = new LoginLekar();
         loginLekar.execute(reqL);
         return (Lekar) loginLekar.getResult();
@@ -141,14 +141,14 @@ public class ServerController {
     }
 
     public List<Rezultat> getListaRezultata(Request request) throws Exception {
-       /* List<Analiza> analize = (List<Analiza>) request.getArgument();
+        /* List<Analiza> analize = (List<Analiza>) request.getArgument();
         List<Rezultat> rezultati = new ArrayList<>();
         for (Analiza a : analize) {
             System.out.println("Analiza: " + a);
             rezultati.add(getRezultat(a));
         }
         return rezultati;*/
-       
+
         List<Analiza> analize = (List<Analiza>) request.getArgument();
         List<Rezultat> rezultati = new ArrayList<>();
         AbstractSO findRez = new FindRezultatAnalize();
@@ -169,7 +169,7 @@ public class ServerController {
     }
 
     public Response insertKartonPacijetna(Request request) {
-      
+
         Response response = new Response();
         response.setOperation(Operations.INSERT_PACIJENT);
         KartonPacijenta k = (KartonPacijenta) request.getArgument();
@@ -207,29 +207,8 @@ public class ServerController {
         return response;
     }
 
- 
+    public List<Uput> sendAllUputi() throws Exception {     //KORISTI SE
 
-    //public Response sendAllUputi() throws Exception {
-    public List<Uput> sendAllUputi() throws Exception {
-      /*  Response response = new Response();
-        response.setOperation(Operations.GET_ALL_UPUT);
-        Uput u = new Uput();
-        List<GeneralDObject> odoUputi = bbp.findAllRecords_NoCondition(u);
-        List<Uput> uputi = new ArrayList<>();
-        for (GeneralDObject odo : odoUputi) {
-            u = (Uput) odo;
-            u.setLekar((Lekar) bbp.findRecord1(u.getLekar()));
-            u.setAnalize(getAllAnalize(u));
-            uputi.add(u);
-        }
-        if (uputi != null) {
-            response.setResponse(uputi);
-            response.setResponseType(ResponseType.SUCCESS);
-        } else {
-            response.setResponseType(ResponseType.ERROR);
-            response.setException(new Exception("Nema uputa"));
-        }
-        return response;*/  
         AbstractSO findUputi = new FindAllUputi();
         findUputi.execute(new Uput());
         return (List<Uput>) findUputi.getResult1();
@@ -257,34 +236,17 @@ public class ServerController {
     }
 
     public Laborant loginLaborant(Laborant lab) throws Exception {
-        
+
         AbstractSO loginLab = new LoginLaborant();
         loginLab.execute(lab);
         return (Laborant) loginLab.getResult();
-       
+
     }
 
-    public void insertRezultat(Rezultat rez) throws Exception {
-       /* Response response = new Response();
-        response.setOperation(Operations.INSERT_REZULTAT);
+    public void insertRezultat(Rezultat rez) throws Exception { //KORISTI SE
 
-        Rezultat rez = (Rezultat) request.getArgument();
-
-        Long max = bbp.findMaxRecord(rez);
-        rez.setSifra_rezultata(max + 1);
-
-        if (bbp.insertRecord(rez)) {
-            response.setResponseType(ResponseType.SUCCESS);
-            bbp.commitTransation();
-        } else {
-            response.setResponseType(ResponseType.ERROR);
-            response.setException(new Exception("Neuspesan unos rezultata"));
-            bbp.rollbackTransation();
-        }
-        return response;*/
-       AbstractSO insertRez = new InsertRezultat();
-       insertRez.execute(rez);
-       
+        AbstractSO insertRez = new InsertRezultat();
+        insertRez.execute(rez);
 
     }
 
@@ -324,6 +286,18 @@ public class ServerController {
         findKP.execute(k);
         System.out.println("Get result = " + findKP.getResult());
         return (KartonPacijenta) findKP.getResult();
+    }
+
+    public void logoutLekar(Request request) {
+        Lekar lekar = (Lekar) request.getArgument();
+        form.logout(lekar);
+        serverThread.logoutLekar(lekar);
+    }
+
+    public void logoutLab(Request request) {
+        Laborant laborant = (Laborant) request.getArgument();
+        form.logout(laborant);
+        serverThread.logoutLaborant(laborant);
     }
 
 }

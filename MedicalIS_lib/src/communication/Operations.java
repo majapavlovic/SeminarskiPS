@@ -25,4 +25,6 @@ public class Operations implements Serializable{
     public static final int REFRESH = 12;
     public static final int GET_ALL_ANALIZA = 13;
     public static final int GET_REZULTATI = 14;
+    public static final int LOGOUT_LEKAR = 15;
+    public static final int LOGOUT_LAB = 16;
 }

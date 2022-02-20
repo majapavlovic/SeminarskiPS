@@ -302,6 +302,7 @@ public class FrmKreiranjeUputa extends javax.swing.JDialog {
         tblModel.setRowCount(0);
         txtSifraUputa.setText("");
         analize.removeAll(analize);
+        txtDijagnoza.setText("");
     }//GEN-LAST:event_btnOsveziActionPerformed
 
 

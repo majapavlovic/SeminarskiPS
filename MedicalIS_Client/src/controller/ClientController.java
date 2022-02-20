@@ -17,6 +17,8 @@ import domain.Rezultat;
 import domain.Uput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SpringLayout;
 import thread.ClientThread;
 import view.FrmKreiranjeUputa;
@@ -160,7 +162,7 @@ public class ClientController {
         new Sender(clientThread.getSocket()).send(request);
     }
 
-    public void getRezultati() throws Exception {           
+    public void getRezultati() throws Exception {
         Request request = new Request(Operations.GET_ALL_REZULTAT, null);
         new Sender(clientThread.getSocket()).send(request);
     }
@@ -249,6 +251,23 @@ public class ClientController {
     public void getRezultatiAnaliza(List<Analiza> analize) throws Exception {        //NOVA
         Request request = new Request(Operations.GET_REZULTATI, analize);
         new Sender(clientThread.getSocket()).send(request);
+    }
+
+    public void logoutLekar(Lekar lekar) {
+        try {
+            Request request = new Request(Operations.LOGOUT_LEKAR, lekar);
+            new Sender(clientThread.getSocket()).send(request);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void logoutLaborant(Laborant lab) {
+        try {
+            Request request = new Request(Operations.LOGOUT_LAB, lab);
+            new Sender(clientThread.getSocket()).send(request);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }
