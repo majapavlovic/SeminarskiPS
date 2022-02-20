@@ -48,7 +48,7 @@ public class Rezultat implements Serializable, GeneralDObject {
     public void setAnaliza(Analiza analiza) {
         this.analiza = analiza;
     }
-    
+
     public String getRezultat_analize() {
         return rezultat_analize;
     }
@@ -72,16 +72,19 @@ public class Rezultat implements Serializable, GeneralDObject {
     public void setLaborant(Laborant laborant) {
         this.laborant = laborant;
     }
-    
+
     @Override
     public String getAtrValue() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return sifra_rezultata + ", '"  + rezultat_analize + "', '" + formatter.format(datumIzdavanja) + "', '" + laborant.getUsername() + "', " + analiza.getSifraAnalize();
+        return sifra_rezultata + ", '" + rezultat_analize + "', '" + formatter.format(datumIzdavanja)
+                + "', '" + laborant.getUsername() + "', " + analiza.getSifraAnalize();
     }
 
     @Override
     public String setAtrValue() {
-        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='"  + rezultat_analize + "', datum_izdavanja='" + datumIzdavanja + "', laborant='" + laborant.getUsername() + "', sifra_analize=" + analiza.getSifraAnalize();
+        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='" + rezultat_analize
+                + "', datum_izdavanja='" + datumIzdavanja + "', laborant='" + laborant.getUsername() 
+                + "', sifra_analize=" + analiza.getSifraAnalize();
     }
 
     @Override
@@ -95,20 +98,10 @@ public class Rezultat implements Serializable, GeneralDObject {
     }
 
     @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Rezultat(rs.getLong("sifra_rezultata"), rs.getString("rezultat_analize"), rs.getDate("datum_izdavanja"), new Laborant(rs.getString("laborant")), new Analiza(rs.getLong("sifra_analize"))); }
-
-    @Override
-    public String toString() {
-        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='"  + rezultat_analize + 
-                "', datum_izdavanja='" + datumIzdavanja + "";
-        
-        
+        return new Rezultat(rs.getLong("sifra_rezultata"), rs.getString("rezultat_analize"),
+                rs.getDate("datum_izdavanja"), new Laborant(rs.getString("laborant")),
+                new Analiza(rs.getLong("sifra_analize")));
     }
 
     @Override
@@ -121,6 +114,10 @@ public class Rezultat implements Serializable, GeneralDObject {
         return "sifra_rezultata";
     }
     
-    
-          
+    @Override
+    public String toString() {
+        return "sifra_rezultata=" + sifra_rezultata + ", rezultat_analize='" + rezultat_analize
+                + "', datum_izdavanja='" + datumIzdavanja + "";
+    }
+
 }

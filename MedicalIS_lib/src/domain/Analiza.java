@@ -71,7 +71,8 @@ public class Analiza implements GeneralDObject, Serializable {
 
     @Override
     public String setAtrValue() {
-        return "sifra_analize = " + sifraAnalize + ", vrsta_analize='" + vrstaAnalize + "', vrsta_uzorka='" + vrstaUzorka + "', sifra_uputa=" + uput.getSifraUputa();
+        return "sifra_analize = " + sifraAnalize + ", vrsta_analize='" + 
+                vrstaAnalize + "', vrsta_uzorka='" + vrstaUzorka + "', sifra_uputa=" + uput.getSifraUputa();
     }
 
     @Override
@@ -82,11 +83,6 @@ public class Analiza implements GeneralDObject, Serializable {
     @Override
     public String getWhereCondition() {
         return "sifra_uputa = " + uput.getSifraUputa();
-    }
-
-    @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -105,7 +101,8 @@ public class Analiza implements GeneralDObject, Serializable {
 
     @Override
     public String toString() {
-        return "sifra_analize = " + sifraAnalize + ", vrsta_analize='" + vrstaAnalize + "', vrsta_uzorka='" + vrstaUzorka + "'";
+        return "sifra_analize = " + sifraAnalize + ", vrsta_analize='" + 
+                vrstaAnalize + "', vrsta_uzorka='" + vrstaUzorka + "'";
     }
 
 }

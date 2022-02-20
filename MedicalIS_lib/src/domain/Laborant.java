@@ -74,7 +74,8 @@ public class Laborant implements Serializable, GeneralDObject {
 
     @Override
     public String setAtrValue() {
-        return "korisnicko_ime='" + username + "', korisnicka_sifra='" + password + "', ime='" + ime + "', prezime='" + prezime + "'";
+        return "korisnicko_ime='" + username + "', korisnicka_sifra='" +
+                password + "', ime='" + ime + "', prezime='" + prezime + "'";
     }
 
     @Override
@@ -88,13 +89,9 @@ public class Laborant implements Serializable, GeneralDObject {
     }
 
     @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {
-        return new Laborant(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"), rs.getString("ime"), rs.getString("prezime"));
+        return new Laborant(rs.getString("korisnicko_ime"), rs.getString("korisnicka_sifra"), 
+                rs.getString("ime"), rs.getString("prezime"));
     }
 
     @Override

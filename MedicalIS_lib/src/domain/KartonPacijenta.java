@@ -37,7 +37,8 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
         this.jmbg = jmbg;
     }
 
-    public KartonPacijenta(String jmbg, String lbo, String ime, String prezime, String pol, Date datumRodjenja, String adresa, String kontaktTelefon, String krvnaGrupa, String hronicneDijagnoze, Lekar lekar) {
+    public KartonPacijenta(String jmbg, String lbo, String ime, String prezime, String pol, Date datumRodjenja, 
+            String adresa, String kontaktTelefon, String krvnaGrupa, String hronicneDijagnoze, Lekar lekar) {
         this.jmbg = jmbg;
         this.lbo = lbo;
         this.ime = ime;
@@ -150,8 +151,10 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
     @Override
     public String getAtrValue() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return "'" + jmbg.toString() + "', '" + lbo.toString() + "', '" + ime + "', '" + prezime + "', '" + formatter.format(datumRodjenja) + "', '" + pol.toString()
-                + "', '" + adresa + "', '" + kontaktTelefon + "', '" + krvnaGrupa.toString() + "', '" + hronicneDijagnoze + "', '" + lekar.getUsername() + "'";
+        return "'" + jmbg.toString() + "', '" + lbo.toString() + "', '" + ime + "', '" 
+                + prezime + "', '" + formatter.format(datumRodjenja) + "', '" + pol.toString()
+                + "', '" + adresa + "', '" + kontaktTelefon + "', '" + krvnaGrupa.toString() + 
+                "', '" + hronicneDijagnoze + "', '" + lekar.getUsername() + "'";
     }
 
     @Override
@@ -176,10 +179,6 @@ public class KartonPacijenta implements Serializable, GeneralDObject {
         return "jmbg = '" + jmbg + "'";
     }
 
-    @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public GeneralDObject getNewRecord(ResultSet rs) throws SQLException {

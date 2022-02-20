@@ -28,7 +28,8 @@ public class Uput implements Serializable, GeneralDObject {
     public Uput() {
     }
 
-    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, KartonPacijenta pacijent, List<Analiza> analize) {
+    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, 
+            KartonPacijenta pacijent, List<Analiza> analize) {
         this.sifraUputa = sifraUputa;
         this.datumUputa = datumUputa;
         this.uputnaDijagnoza = uputnaDijagnoza;
@@ -38,7 +39,8 @@ public class Uput implements Serializable, GeneralDObject {
        
     }
 
-    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, Lekar lekar, KartonPacijenta pacijent) {
+    public Uput(Long sifraUputa, Date datumUputa, String uputnaDijagnoza, 
+            Lekar lekar, KartonPacijenta pacijent) {
         this.sifraUputa = sifraUputa;
         this.datumUputa = datumUputa;
         this.uputnaDijagnoza = uputnaDijagnoza;
@@ -128,11 +130,6 @@ public class Uput implements Serializable, GeneralDObject {
     @Override
     public String getWhereCondition() {
         return "jmbg = '" + pacijent.getJmbg().toString() + "' ORDER BY sifra_uputa DESC";
-    }
-
-    @Override
-    public String getNameByColumn(int column) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

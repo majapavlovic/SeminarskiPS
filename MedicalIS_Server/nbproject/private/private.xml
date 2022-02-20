@@ -7,19 +7,23 @@
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/dbbroker/BrokerBazePodataka.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/config/server.properties</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/threads/ServerThread.java</file>
-            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/constants/MyServerConstants.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/threads/ClientHandle.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/FindAllUputi.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/view/FrmMain.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/view/FrmServerConfig_.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/LoginLekar.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/AbstractSO.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/main/Server.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/LoginLaborant.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/view/FrmServerConfig.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/InsertUput.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/controller/ServerController.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/view/FrmDbConfig.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/config/config.properties</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/dbbroker/BrokerBazePodataka_impl.java</file>
             <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/AddKartonPacijenta.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/FindKartonPacijenta.java</file>
+            <file>file:/C:/Faks/Projektovanje%20softvera/Seminarski/PROJEKAT/MedicalIS_Server/src/so/InsertRezultat.java</file>
         </group>
     </open-files>
 </project-private>

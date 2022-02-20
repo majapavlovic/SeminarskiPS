@@ -25,10 +25,9 @@ public class BrokerBazePodataka_impl extends BrokerBazePodataka {
     public boolean makeConnection() 
     {   readConfigProperties();
         try {
-             //Class.forName(driver);
              conn = DriverManager.getConnection(url,username,password);
-             conn.setAutoCommit(false); // Ako se ovo ne uradi nece moci da se radi roolback.
-            } catch (SQLException ex) // | ClassNotFoundException ex) 
+             conn.setAutoCommit(false); 
+            } catch (SQLException ex) 
             {
             Logger.getLogger(BrokerBazePodataka_impl.class.getName()).log(Level.SEVERE, null, ex);
             return false;

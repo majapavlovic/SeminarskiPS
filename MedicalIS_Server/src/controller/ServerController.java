@@ -169,20 +169,7 @@ public class ServerController {
     }
 
     public Response insertKartonPacijetna(Request request) {
-        /* KartonPacijenta k = (KartonPacijenta) request.getArgument();
-        Response response = new Response();
-        response.setOperation(Operations.INSERT_PACIJENT);
-
-        if (bbp.insertRecord(k)) {
-            bbp.commitTransation();
-            response.setResponseType(ResponseType.SUCCESS);
-        } else {
-            bbp.rollbackTransation();
-            response.setException(new Exception("Neuspesan upis novog pacijenta"));
-            response.setResponseType(ResponseType.ERROR);
-
-        }
-        return response; */
+      
         Response response = new Response();
         response.setOperation(Operations.INSERT_PACIJENT);
         KartonPacijenta k = (KartonPacijenta) request.getArgument();
@@ -201,26 +188,6 @@ public class ServerController {
     }
 
     public Response insertUput(Request request) {
-        /* Response response = new Response();
-        response.setOperation(Operations.INSERT_UPUT);
-
-        Uput u = (Uput) request.getArgument();
-
-        Long max = (Long) bbp.findMaxRecord(u);
-        List<Analiza> lista = setSifreAnaliza(u, u.getAnalize());
-
-        u.setAnalize(lista);
-        u.setSifraUputa(max + 1);
-        if (bbp.insertRecord(u) && saveAnalize(lista)) {
-            bbp.commitTransation();
-            response.setResponseType(ResponseType.SUCCESS);
-            response.setResponse(u);
-        } else {
-            bbp.rollbackTransation();
-            response.setException(new Exception("Neuspesan unos uputa."));
-            response.setResponseType(ResponseType.ERROR);
-        }
-        return response;*/
 
         Response response = new Response();
         response.setOperation(Operations.INSERT_UPUT);
@@ -240,22 +207,7 @@ public class ServerController {
         return response;
     }
 
-    public List<Analiza> setSifreAnaliza(Uput uput, List<Analiza> analize) {
-        Long maxAnaliza = (Long) bbp.findMaxRecord(new Analiza());
-        for (Analiza a : analize) {
-            a.setSifraAnalize(++maxAnaliza);
-            a.setUput(uput);
-        }
-        return analize;
-    }
-
-    public boolean saveAnalize(List<Analiza> analize) {
-        boolean b = false;
-        for (Analiza a : analize) {
-            b = bbp.insertRecord(a);
-        }
-        return b;
-    }
+ 
 
     //public Response sendAllUputi() throws Exception {
     public List<Uput> sendAllUputi() throws Exception {
@@ -305,8 +257,6 @@ public class ServerController {
     }
 
     public Laborant loginLaborant(Laborant lab) throws Exception {
-        //bbp.makeConnection();
-        //return (Laborant) bbp.findRecord(lab);
         
         AbstractSO loginLab = new LoginLaborant();
         loginLab.execute(lab);
@@ -338,20 +288,7 @@ public class ServerController {
 
     }
 
-    public Response updatePacijent(Request request) {
-        /* KartonPacijenta p = (KartonPacijenta) request.getArgument();
-        Response response = new Response();
-        response.setOperation(Operations.UPDATE_PACIJENT);
-        if (bbp.updateRecord(p)) {
-            response.setResponseType(ResponseType.SUCCESS);
-            bbp.commitTransation();
-
-        } else {
-            response.setResponseType(ResponseType.ERROR);
-            response.setException(new Exception("Neuspesno azuriranje kartona pacijenta"));
-            bbp.rollbackTransation();
-        }
-        return response;*/
+    public Response updatePacijent(Request request) { //NOVA
 
         Response response = new Response();
         response.setOperation(Operations.UPDATE_PACIJENT);

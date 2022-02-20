@@ -30,6 +30,4 @@ public abstract class BrokerBazePodataka {
     public abstract boolean getCounter(GeneralDObject odo,AtomicInteger counter); 
     public abstract boolean increaseCounter(GeneralDObject odo,AtomicInteger counter); 
     public abstract void closeConnection();
-    
-    
 }

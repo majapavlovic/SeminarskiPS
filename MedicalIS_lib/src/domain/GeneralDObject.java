@@ -9,7 +9,6 @@ public interface GeneralDObject extends Serializable{
     String setAtrValue();
     String getClassName();
     String getWhereCondition();
-    String getNameByColumn(int column);
 
     GeneralDObject getNewRecord(ResultSet rs) throws SQLException;
 

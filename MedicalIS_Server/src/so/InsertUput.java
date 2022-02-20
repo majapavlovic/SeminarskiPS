@@ -50,9 +50,7 @@ public class InsertUput extends AbstractSO {
 
         List<Analiza> lista = setSifreAnaliza(u, u.getAnalize());
 
-        if (!bbp.insertRecord(u) || !saveAnalize(lista)) {
-            System.out.println("Cuva li se");
-            
+        if (!bbp.insertRecord(u) || !saveAnalize(lista)) {            
             throw new Exception("Neuspesno cuvanje uputa!");
         }
 

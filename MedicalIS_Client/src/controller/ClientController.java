@@ -94,7 +94,7 @@ public class ClientController {
             System.out.println(k.getIme());
             frmLekar.showKartonPacijenta(response);
         } else {
-            frmLekar.showMessage(response.getException().getMessage());
+            frmLekar.showMessage("Sistem ne moze da nadje karton pacijenta.");
         }
 
     }
@@ -217,7 +217,7 @@ public class ClientController {
         if (response.getResponseType().equals(ResponseType.SUCCESS)) {
             message = "Uspesno azuriran karton pacijenta.";
         } else {
-            message = response.getException().getMessage();
+            message = "Neuspesno azuriranje kartona pacijenta.";
         }
         frmLekar.notifyUser(message);
     }

@@ -10,8 +10,11 @@ import communication.Response;
 import controller.ClientController;
 import domain.Laborant;
 import domain.Lekar;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Client;
@@ -26,14 +29,16 @@ public class ClientThread extends Thread {
     private Lekar lekar;
     private Laborant laborant;
 
+    private int port;
 
     public ClientThread() {
         try {
-            this.socket = new Socket("127.0.0.1", 9000);
+            setPort();
+            this.socket = new Socket("127.0.0.1", port);
         } catch (IOException ex) {
             System.out.println("Greska u konektovanju!");
         }
-        
+
     }
 
     public Socket getSocket() {
@@ -92,8 +97,26 @@ public class ClientThread extends Thread {
                 break;
             case Operations.GET_ALL_ANALIZA:
                 ClientController.getInstance().showAnalize(response);
-            
+
         }
     }
-    
+
+    private void setPort() {
+        Properties prop = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream("../MedicalIS_Server/config/server.properties");
+            prop.load(input);
+            port = Integer.valueOf(prop.getProperty("port"));
+
+        } catch (IOException ex) {
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
 }
