@@ -829,9 +829,8 @@ public class FrmMain_Lekar extends javax.swing.JFrame {
         txtPrezime.setText("");
         cbKrvnaGrupa.setSelectedItem("A+");
         txtKontakt.setText("");
-        cbPol.setSelectedItem("Muski");
+        cbPol.setSelectedItem("Muski"); 
         txtLekar.setText("");
-        txtJMBGnadji.setText("");
     }
 
 }
