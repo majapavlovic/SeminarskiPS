@@ -1,1 +1,5 @@
 /MedicalIS_Client/dist/
+/target/
+/.classpath
+/.project
+.settings
